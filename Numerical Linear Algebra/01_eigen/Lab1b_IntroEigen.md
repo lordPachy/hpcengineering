@@ -48,7 +48,7 @@ g++ -I ${mkEigenInc} eigen-test1.cpp -o test1
 
 Eigen provides a set of block operations designed specifically for the special case of vectors:
 - Block containing the first $n$ elements: `vector.head(n)`
-- Block containing the first $n$ elements: `vector.tail(n)`
+- Block containing the last $n$ elements: `vector.tail(n)`
 - Block containing $n$ elements, starting at position $i$: `vector.segment(i,n)`
 
 Eigen also provides special methods for blocks that are flushed against one of the corners or sides of a matrix. For instance:
