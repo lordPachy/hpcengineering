@@ -153,6 +153,7 @@ int main(int argc, char* argv[]) {
 
   // Load the image using stb_image
   int width, height, channels;
+  // The type is unsigned char since it has a range of [0, 255]; the range is exactly the same of images
   unsigned char* image_data = stbi_load(input_image_path, &width, &height, &channels, 3);  // Force load as RGB
 
   if (!image_data) {
