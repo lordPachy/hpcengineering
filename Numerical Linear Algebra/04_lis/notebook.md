@@ -102,7 +102,7 @@ mpirun -n 4 ./test1 gr_30_30.mtx 2 sol.txt hist.txt -i bicg -p jacobi
 
 - Solve the linear system $A\boldsymbol{x} = \boldsymbol{b}$ using the Conjugate Gradient method of the LIS library setting a tolerance of $10^{-13}$. 
 
-- Report the iteration counts and the relative residual at the last iteration.
+- Report the iteration counts (460) and the relative residual at the last iteration (4.23e-14).
 
 ### Exercise 3
 
@@ -110,7 +110,7 @@ mpirun -n 4 ./test1 gr_30_30.mtx 2 sol.txt hist.txt -i bicg -p jacobi
 
 - 2. Modify the implementation by changing the size of the linear system to 120 and by setting the conjugate gradient method as iterative solver
 
-- 3. Print the relative error
+- 3. Print the relative error (1e-12)
 
 
 ### Exercise 4
