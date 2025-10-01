@@ -96,6 +96,8 @@ mpirun -n 4 ./test1 gr_30_30.mtx 2 sol.txt hist.txt -i gmres -restart 20
 mpirun -n 4 ./test1 gr_30_30.mtx 2 sol.txt hist.txt -i bicg -p jacobi
 ```
 
+Note that sometimes preconditioners act differently on whether they are running in a single or multi-threaded fashion.
+
 ### Exercise 2
 
 - Download the matrix A (`matA.mtx` in  matrix market format) and vector b (`vecB.mtx` in  matrix market format) from the Lab3 folder in webeep and move them to the folder `lis-2.1.10/test`. 

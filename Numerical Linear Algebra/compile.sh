@@ -2,4 +2,4 @@
 
 filename="$1"
 suffix=".cpp"
-g++ -I ${mkEigenInc} ${filename} -o ${filename%"$suffix"}
+mpicc -DUSE_MPI -I${mkLisInc} -L${mkLisLib} -llis -I${mkEigenInc} ${filename} -o ${filename%"$suffix"}
