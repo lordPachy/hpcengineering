@@ -1,0 +1,2 @@
+AMSC-CodeExamples/Examples/src/SimpleProgram/main_ch1.cpp
+AMSC-CodeExamples/Examples/src/HeatExchange/main.cpp
