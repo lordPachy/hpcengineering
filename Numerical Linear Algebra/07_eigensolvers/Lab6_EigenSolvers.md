@@ -72,7 +72,7 @@ The formula goes as $$(A-\mu I)^{-1}v = \frac{1}{\lambda - \mu}v$$ The computed 
 It is possible that picking a $\mu=\lambda$, we will get a non-invertible matrix. However, this event has probability 0; the real problem is that getting too close to some $\lambda_i$ will make the matrix $(A-\mu I)$ close to singular, thus making the "inversion" lengthy. It is a trade-off between getting close to that, in such a way the acceleration is higher, and the inversion problem $(A-\mu I)^{-1}$ is easy.
 ## Compute multiple eigenpairs
 
-In LIS, some numerical methods to compute multiple eigenpairs are also available. The choice of the particular method can be specified by the option `-e + [method]`, while the number of computed eigenvalues (also referred to as \textit{the size of the subspace}) by the option `-ss + [int]`. This methods hinges on computing matrices similar to $A$ in Hessenberg or tridiagonal forms by the application of Arnoldi or Lanczos procedures. 
+In LIS, some numerical methods to compute multiple eigenpairs are also available. The choice of the particular method can be specified by the option `-e + [method]`, while the number of computed eigenvalues (also referred to as $\textit{the size of the subspace}$) by the option `-ss + [int]`. This methods hinges on computing matrices similar to $A$ in Hessenberg or tridiagonal forms by the application of Arnoldi or Lanczos procedures. 
 
 A subspace method for eigenvalue problems basically works as follows:
 
@@ -122,7 +122,7 @@ mpirun -n 4 ./eigen2 testmat2.mtx evals.mtx eigvecs.mtx res.txt iters.txt -e ai 
 
 - 3. Compute the eigenvalue of `fluid_sym.mtx` closest to different positive value of $\mu$ using the Inverse method with shift. Explore different iterative methods and comment the results.
 
-- 4. Simultaneously compute four eigenvalues of the matrix and save the corresponding eigenvectors in a \texttt{.mtx} file. Set a precision of magnitude $10^{-7}$. 
+- 4. Simultaneously compute four eigenvalues of the matrix and save the corresponding eigenvectors in a $\texttt{.mtx}$ file. Set a precision of magnitude $10^{-7}$. 
 
 
 ## Exercise 2
@@ -185,7 +185,7 @@ wget https://math.nist.gov/pub/MatrixMarket2/Harwell-Boeing/lanpro/nos1.mtx.gz
 gzip -dk nos1.mtx.gz
 ```
 
-Load the matrix in a `.cpp` file and compute its eigenvalues using the `EigenSolver` function available in Eigen. Compute the eigenvalues of the symmetric part of the previos matrix using the `SelfAdjointEigenSolver`.
+Load the matrix in a `.cpp` file and compute its eigenvalues using the `EigenSolver` function available in Eigen. Compute the eigenvalues of the symmetric part of the previous matrix using the `SelfAdjointEigenSolver`. This methods are based on decompositions, such as $QR$ or $U\Sigma V^*$.
 
 ```
 #include <iostream>
@@ -214,7 +214,7 @@ int main(int argc, char** argv)
   return 0;
 }
 ```
-
+Since we are not dealing with symmetric matrices, it is possible to get complex eigenvalues; thus, they will be represented with pairs of values.
 ## Exercise 4
 
 - 1. Download the symmetric matrix [stokes_sym.mtx](https://webeep.polimi.it/mod/folder/view.php?id=129876). 
