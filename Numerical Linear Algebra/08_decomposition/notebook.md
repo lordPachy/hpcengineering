@@ -23,9 +23,9 @@ Another possibility which is usually faster than SVD and about as accurate, is `
 
 ## Iterative solvers
 
-In Eigen there is also an iterative solver for sparse least-square problems. It is given by the Least Square Conjugate Gradient Method applied in the contest of rectangular systems. 
+In Eigen there is also an iterative solver for sparse least-square problems. It is given by the Least Square Conjugate Gradient Method applied in the context of rectangular systems. 
 
-The `Eigen::LeastSquaresConjugateGradient` solves for the least-squares solution to $A x = b$ using an iterative conjugate gradient algorithm on the matrix $A^{T} A$. The matrix $A$ can be non symmetric and rectangular, but the matrix $A^{T} A$ should be positive-definite to guaranty stability.
+The `Eigen::LeastSquaresConjugateGradient` solves for the least-squares solution to $A x = b$ using an iterative conjugate gradient algorithm on the matrix $A^{T} A$. The matrix $A$ can be non-symmetric and rectangular, but the matrix $A^{T} A$ should be positive-definite to guaranty stability.
 
 
 ### Exercise 1
@@ -98,7 +98,7 @@ The singular value decomposition of a matrix is not unique and is important for 
 
 You can ask for only thin $U$ or $V$ to be computed, meaning the following. In case of a rectangular n-by-p matrix, letting m be the smaller value among n and p, there are only m singular vectors; the remaining columns of $U$ and $V$ do not correspond to actual singular vectors. Asking for thin $U$ or $V$ means asking for only their m first columns to be formed. So $U$ is then a n-by-m matrix, and $V$ is then a p-by-m matrix. Notice that thin $U$ and $V$ are all you need for (least squares) solving.
 
-The `solve()` method in the BDCSVD class can be directly used to solve linear squares systems. It is not enough to compute only the singular values (the default for this class); you also need the singular vectors but the thin SVD decomposition suffices for computing least squares solutions.
+The `solve()` method in the BDCSVD class can be directly used to solve linear squared systems. It is not enough to compute only the singular values (the default for this class); you also need the singular vectors but the thin SVD decomposition suffices for computing least squares solutions.
 
 ### Exercise 2
 

@@ -1,7 +1,7 @@
 
 # Preconditioners with Eigen and LIS
 
-In the following exercise we aim to compare different preconditioning strategies. In Eigen there is a built-in incomplete LU preconditioner that we can provide as an argument for the available linear solver. This ILU preconditioners as two parameters (`fill_in` and `tol`) which can be used to define the accuracy of the approximated LU factorization with respect to the original matrix.\
+In the following exercise we aim to compare different preconditioning strategies. In Eigen there is a built-in incomplete LU preconditioner that we can provide as an argument for the available linear solver. This ILU preconditioners has two parameters (`fill_in` and `tol`) which can be used to define the accuracy of the approximated LU factorization with respect to the original matrix.\
 The general aim is to have
 1. $P^{-1}$ or its action should be cheap to compute
 2. $\rho(P^{-1}A)$ should be as small as possible (ideally, 1)
