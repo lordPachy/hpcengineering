@@ -1,0 +1,23 @@
+
+number of processes = 4
+matrix size = 351 x 351 (9153 nonzero entries)
+
+initial vector x      : all components set to 1
+precision             : double
+eigensolver           : Inverse
+convergence condition : ||lx-(B^-1)Ax||_2 <= 1.0e-08 * ||lx||_2
+matrix storage format : CSR
+shift                 : 7.000000e+00
+linear solver         : GMRES
+preconditioner        : none
+eigensolver status    : normal end
+
+Inverse: mode number          = 0
+Inverse: eigenvalue           = 6.975675e+00
+Inverse: number of iterations = 26
+Inverse: elapsed time         = 3.680544e-01 sec.
+Inverse:   preconditioner     = 1.129500e-05 sec.
+Inverse:     matrix creation  = 8.040000e-07 sec.
+Inverse:   linear solver      = 3.672753e-01 sec.
+Inverse: relative residual    = 7.986189e-09
+
