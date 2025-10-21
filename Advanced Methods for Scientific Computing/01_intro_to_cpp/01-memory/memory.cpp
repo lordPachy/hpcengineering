@@ -11,7 +11,7 @@ and run with
 
 /**
  * @file memory.cpp
- * @brief Demonstrates different memory allocation types and memory addressing in C++, pecifically showcasing different memory regions
+ * @brief Demonstrates different memory allocation types and memory addressing in C++, specifically showcasing different memory regions
  *
  * This program illustrates 
  * 1. Static memory allocation (static variables)
@@ -57,8 +57,8 @@ size_t Counter::count = 0;
  * - A vector of integers (v) initialized with 3 elements
  * 
  * Prints the memory addresses of
- * - The vector's data storage
  * - The local integer's address
+ * - The vector's data storage
  * 
  */
 void a_function() {

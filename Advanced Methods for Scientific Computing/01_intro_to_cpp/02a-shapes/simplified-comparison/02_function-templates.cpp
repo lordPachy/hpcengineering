@@ -27,6 +27,7 @@ struct Rectangle {
      * @brief Calculate the area of the rectangle
      * @return double Area of the rectangle
      */
+    // It does not modify the object from which is called
     double area() const { return width * height; }
 
     /**

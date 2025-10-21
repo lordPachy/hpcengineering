@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     // the elements in a continuous memory location, this means that it is preferable to avoid to build a big vector
     // few elements are enough.
     // Polymorphism is useful in case we have, e.g., multiple quadrature methods that are all of course quadrature rules, so they share something in common.
-    // In general, you will have few quadrature rule implemented in a program and can be implemented with the help of the isomorphism.
+    // In general, you will have few quadrature rules implemented in a program and can be implemented with the help of the isomorphism.
     // In general, always have a look at the performances. Data locality when accessing elements is important because CPU likes to access elements in that way.
 
 
