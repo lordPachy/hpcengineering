@@ -20,7 +20,8 @@ Root_finder::Root_finder(type_fun func, int max_iter, double rtol, double stol) 
 Newton::Newton(const double initial_guess, type_fun func, int max_iter, double rtol, double stol, optional<type_fun> der_func_in, double step_size) : initial_guess(initial_guess), Root_finder(func, max_iter, rtol, stol), step_size(step_size)
 {
     xs.push_back(initial_guess);
-    der_fun = der_func_in ? *der_func_in : [this](double const& x){return ((this->function_root(x+this->step_size)-this->function_root(x))/this->step_size);};
+    der_fun = der_func_in ? *der_func_in : [this](double const& x){
+        return ((this->function_root(x+this->step_size)-this->function_root(x))/this->step_size);};
     is_Newton = der_func_in ? true : false;
 }
 

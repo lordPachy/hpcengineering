@@ -43,6 +43,9 @@ class Newton: public Root_finder{
     bool is_Newton;
 
     public:
+    // Note how these constructors are first assigning all their new members,
+    // then the one from the parent class,
+    // and then the predefined parameters
     Newton(const double, type_fun, int, double, double, optional<type_fun> der_func_in = nullopt, double step_size = 1e-5);
     virtual ~Newton() override = default;
     double solve() override 

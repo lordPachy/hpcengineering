@@ -46,6 +46,7 @@ public:
   Newton(typename T::NonLinearSystemType &&system_,
          Jac                               jac_,
          const NewtonOptions &             options_ = NewtonOptions())
+         // forward is used to preserve type
     : system(std::forward<typename T::NonLinearSystemType>(system_))
     , jac(std::make_unique<JacobianBase<Type>>(jac_))
     , options(options_)
@@ -71,7 +72,7 @@ private:
 };
 
 
-template <ProblemType Type>
+template <ProblemType Type>system
 NewtonResult<Type>
 Newton<Type>::solve(const typename T::VariableType &x0)
 {

@@ -1,0 +1,2 @@
+matrix.o: matrix.cpp matrix.hpp
+test_matrix_mult.o: test_matrix_mult.cpp test_matrix_mult.hpp matrix.hpp

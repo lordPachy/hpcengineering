@@ -12,7 +12,7 @@ private:
   const unsigned int  rows;
   const unsigned int  cols;
 
-  inline unsigned int
+  inline unsigned int 
   sub2ind(const unsigned int ir, const unsigned int jc) const
   {
     return (ir + jc * rows);

@@ -6,6 +6,15 @@
 #include <cassert>
 #include <ctime>
 
+/**
+ * Eigen::Map is interesting as it wraps matrix objects
+ * in Eigen objects and renders Eigen operations
+ * possible on such objects. This is proably subject to 
+ * a number on constraints on the hand-crafted matrix objects,
+ * however it makes many operations extremely efficient.
+ */
+
+
 matrix
 matrix::transpose() const
 {
