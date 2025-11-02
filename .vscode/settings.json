@@ -2,6 +2,8 @@
     "C_Cpp.errorSquiggles": "enabled",
     "files.associations": {
         "iostream": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "ostream": "cpp",
+        "sparseextra": "cpp"
     }
 }
