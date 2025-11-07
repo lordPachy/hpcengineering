@@ -25,7 +25,7 @@ Another possibility which is usually faster than SVD and about as accurate, is `
 
 In Eigen there is also an iterative solver for sparse least-square problems. It is given by the Least Square Conjugate Gradient Method applied in the context of rectangular systems. 
 
-The `Eigen::LeastSquaresConjugateGradient` solves for the least-squares solution to $A x = b$ using an iterative conjugate gradient algorithm on the matrix $A^{T} A$. The matrix $A$ can be non-symmetric and rectangular, but the matrix $A^{T} A$ should be positive-definite to guaranty stability.
+The `Eigen::LeastSquaresConjugateGradient` solves for the least-squares solution to $A x = b$ using an iterative conjugate gradient algorithm on the matrix $A^{T} A$. The matrix $A$ can be non-symmetric and rectangular, but the matrix $A^{T} A$ should be positive-definite to guarantee stability.
 
 
 ### Exercise 1
