@@ -1,0 +1,2 @@
+/u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/ar qc libPoisson1D.a CMakeFiles/Poisson1D.dir/src/Poisson1D.cpp.o
+/u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/ranlib libPoisson1D.a

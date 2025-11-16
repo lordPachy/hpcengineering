@@ -1,0 +1,5 @@
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/Poisson1D.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/exercise-01.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/exercise-02.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/edit_cache.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/rebuild_cache.dir
