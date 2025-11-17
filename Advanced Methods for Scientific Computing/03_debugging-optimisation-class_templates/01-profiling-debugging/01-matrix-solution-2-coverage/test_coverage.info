@@ -1,29 +1,4 @@
 TN:
-SF:/home/pachy/Desktop/HPCE/hpcengineering/Advanced Methods for Scientific Computing/03_debugging-optimisation-class_templates/01-profiling-debugging/01-matrix-solution-2-coverage/matrix.hpp
-FN:16,_ZNK6matrix7sub2indEjj
-FNDA:3040400,_ZNK6matrix7sub2indEjj
-FN:22,_ZN6matrix5valueEjj
-FNDA:2020400,_ZN6matrix5valueEjj
-FN:36,_ZN6matrixC2Ej
-FNDA:2,_ZN6matrixC2Ej
-FN:65,_ZN6matrixclEjj
-FNDA:2020400,_ZN6matrixclEjj
-FNF:4
-FNH:4
-DA:16,3040400
-DA:18,3040400
-DA:22,2020400
-DA:24,2020400
-DA:36,2
-DA:37,4
-DA:38,2
-DA:40,2
-DA:41,2
-DA:65,2020400
-DA:67,2020400
-LF:11
-LH:11
-end_of_record
 SF:/home/pachy/Desktop/HPCE/hpcengineering/Advanced Methods for Scientific Computing/03_debugging-optimisation-class_templates/01-profiling-debugging/01-matrix-solution-2-coverage/test_matrix_mult.cpp
 FN:6,main
 FNDA:1,main
@@ -48,6 +23,31 @@ DA:28,1
 DA:30,1
 LF:17
 LH:17
+end_of_record
+SF:/home/pachy/Desktop/HPCE/hpcengineering/Advanced Methods for Scientific Computing/03_debugging-optimisation-class_templates/01-profiling-debugging/01-matrix-solution-2-coverage/matrix.hpp
+FN:16,_ZNK6matrix7sub2indEjj
+FNDA:3040400,_ZNK6matrix7sub2indEjj
+FN:22,_ZN6matrix5valueEjj
+FNDA:2020400,_ZN6matrix5valueEjj
+FN:36,_ZN6matrixC2Ej
+FNDA:2,_ZN6matrixC2Ej
+FN:65,_ZN6matrixclEjj
+FNDA:2020400,_ZN6matrixclEjj
+FNF:4
+FNH:4
+DA:16,3040400
+DA:18,3040400
+DA:22,2020400
+DA:24,2020400
+DA:36,2
+DA:37,4
+DA:38,2
+DA:40,2
+DA:41,2
+DA:65,2020400
+DA:67,2020400
+LF:11
+LH:11
 end_of_record
 TN:
 SF:/home/pachy/Desktop/HPCE/hpcengineering/Advanced Methods for Scientific Computing/03_debugging-optimisation-class_templates/01-profiling-debugging/01-matrix-solution-2-coverage/matrix.cpp
