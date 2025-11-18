@@ -1,0 +1,4 @@
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/02_elliptic_2D/build/CMakeFiles/exercise-01.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/02_elliptic_2D/build/CMakeFiles/exercise-02.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/02_elliptic_2D/build/CMakeFiles/edit_cache.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/02_elliptic_2D/build/CMakeFiles/rebuild_cache.dir
