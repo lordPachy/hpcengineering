@@ -1,6 +1,6 @@
 CXX      ?= g++
 CXXFLAGS ?= -std=c++17
-CPPFLAGS ?= -O3 -Wall -pedantic -I.
+CPPFLAGS ?= -O3 -Wall -pedantic -g -I.
 LDLIBS   ?= 
 LINK.o := $(LINK.cc) # Use C++ linker.
 
@@ -17,6 +17,12 @@ all: $(DEPEND) $(EXEC)
 $(EXEC): $(OBJS)
 
 $(OBJS): %.o: %.cpp
+
+coverage: all
+	lcov --directory . --zerocounters
+	./$(EXEC)
+	lcov --directory . --capture --no-external --output test_coverage.info
+	genhtml test_coverage.info --output test_coverage
 
 clean:
 	$(RM) $(DEPEND)

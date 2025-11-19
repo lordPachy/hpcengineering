@@ -4,7 +4,7 @@ The `Makefile` contains the following targets.
 
 > make coverage
 
-generates a code coverage report (`lcov` needs to be installed first).
+generates a code coverage report (`lcov`) needs to be installed first).
 
 > make memcheck
 

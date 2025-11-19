@@ -156,10 +156,10 @@ public:
     Node *t = this;
     while (!t->isLast())
       {
-        std::cout << t.getData() << ", ";
+        std::cout << t->getData() << ", ";
         t = next;
       }
-    std::cout << t.getData() << std::endl;
+    std::cout << t->getData() << std::endl;
   }
 
 protected:
