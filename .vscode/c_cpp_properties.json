@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/eigen3",
-                "/u/sw/toolchains/gcc-glibc/11.2.0/pkgs/**"
+                "/u/sw/toolchains/gcc-glibc/11.2.0/pkgs/**",
+                "/u/sw/toolchains/gcc-glibc/11.2.0/base/include/"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

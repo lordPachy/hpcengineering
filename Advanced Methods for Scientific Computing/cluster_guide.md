@@ -1,3 +1,8 @@
+# Login
+
+sudo gpclient connect gp-dmat-saml.vpn.polimi.it
+ssh u11172853@10.78.18.100
+
 # General information
 
 With lsblk, we can get information about the partitions available.\
