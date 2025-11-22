@@ -197,7 +197,9 @@ main(int argc, char **argv)
 
   if (mpi_rank == 0)
     result.resize(n_rows);
-
+  
+  // Note that result, for rank != 0, is an empty variable.
+  // We may want to use Allgather if the result should available to everyone.
   MPI_Gatherv(result_local.data(),
               n_rows_local,
               MPI_DOUBLE,

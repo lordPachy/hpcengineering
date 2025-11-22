@@ -39,6 +39,8 @@ qsub -I -l host=gpu01
 can be used to query a specific device.
 
 # Submitting jobs
+We should use the login node only for login. All the other jobs should be submitted.
+
 We can use the files in the PBS folders as examples of job submissions.\
 We can add an option select=7 and then place=scatter.
 
