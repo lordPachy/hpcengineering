@@ -120,6 +120,11 @@ depend:
 # Target rules for targets named exercise-01
 
 # Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# Build rule for target.
 exercise-01: cmake_check_build_system
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exercise-01
 .PHONY : exercise-01

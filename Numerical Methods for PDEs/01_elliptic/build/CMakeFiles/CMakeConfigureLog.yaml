@@ -707,3 +707,105 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-SDcr0F"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-SDcr0F"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-SDcr0F'
+        
+        Run Build Command(s): /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/cmake -E env VERBOSE=1 /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/gmake -f Makefile cmTC_64c88/fast
+        /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/gmake  -f CMakeFiles/cmTC_64c88.dir/build.make CMakeFiles/cmTC_64c88.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-SDcr0F'
+        Building C object CMakeFiles/cmTC_64c88.dir/test_mpi.c.o
+        /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/gcc   -pthread -o CMakeFiles/cmTC_64c88.dir/test_mpi.c.o -c "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-SDcr0F/test_mpi.c"
+        Linking C executable cmTC_64c88
+        /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/cmake -E cmake_link_script CMakeFiles/cmTC_64c88.dir/link.txt --verbose=1
+        /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/gcc -Wl,-rpath -Wl,/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -Wl,-rpath -Wl,/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -Wl,--enable-new-dtags -pthread CMakeFiles/cmTC_64c88.dir/test_mpi.c.o -o cmTC_64c88  /u/sw/toolchains/gcc-glibc/11.2.0/base/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-SDcr0F'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-ObhTd7"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-ObhTd7"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-ObhTd7'
+        
+        Run Build Command(s): /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/cmake -E env VERBOSE=1 /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/gmake -f Makefile cmTC_63513/fast
+        /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/gmake  -f CMakeFiles/cmTC_63513.dir/build.make CMakeFiles/cmTC_63513.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-ObhTd7'
+        Building CXX object CMakeFiles/cmTC_63513.dir/test_mpi.cpp.o
+        /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/g++   -std=gnu++17 -pthread -o CMakeFiles/cmTC_63513.dir/test_mpi.cpp.o -c "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-ObhTd7/test_mpi.cpp"
+        Linking CXX executable cmTC_63513
+        /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/cmake -E cmake_link_script CMakeFiles/cmTC_63513.dir/link.txt --verbose=1
+        /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/g++ -Wl,-rpath -Wl,/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -Wl,-rpath -Wl,/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -Wl,--enable-new-dtags -pthread CMakeFiles/cmTC_63513.dir/test_mpi.cpp.o -o cmTC_63513  /u/sw/toolchains/gcc-glibc/11.2.0/base/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-ObhTd7'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/u/sw/toolchains/gcc-glibc/11.2.0/base/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-cNF8h7"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-cNF8h7"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-cNF8h7'
+        
+        Run Build Command(s): /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/cmake -E env VERBOSE=1 /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/gmake -f Makefile cmTC_ce56d/fast
+        /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/gmake  -f CMakeFiles/cmTC_ce56d.dir/build.make CMakeFiles/cmTC_ce56d.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-cNF8h7'
+        Building CXX object CMakeFiles/cmTC_ce56d.dir/test_mpi.cpp.o
+        /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/g++   -std=gnu++17 -pthread -o CMakeFiles/cmTC_ce56d.dir/test_mpi.cpp.o -c "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-cNF8h7/test_mpi.cpp"
+        Linking CXX executable cmTC_ce56d
+        /u/sw/toolchains/gcc-glibc/11.2.0/base/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ce56d.dir/link.txt --verbose=1
+        /u/sw/toolchains/gcc-glibc/11.2.0/prefix/bin/g++ -Wl,-rpath -Wl,/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -Wl,-rpath -Wl,/u/sw/toolchains/gcc-glibc/11.2.0/base/lib -Wl,--enable-new-dtags -pthread CMakeFiles/cmTC_ce56d.dir/test_mpi.cpp.o -o cmTC_ce56d  /u/sw/toolchains/gcc-glibc/11.2.0/base/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic/build/CMakeFiles/CMakeScratch/TryCompile-cNF8h7'
+        
+      exitCode: 0
+...

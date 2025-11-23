@@ -3,6 +3,9 @@ project(lab05 LANGUAGES CXX C)
 
 include(../common/cmake-common.cmake)
 
+add_executable(test src/test.cpp)
+deal_ii_setup_target(test)
+
 add_executable(exercise-01 src/exercise-01.cpp src/DiffusionReaction.cpp)
 deal_ii_setup_target(exercise-01)
 
