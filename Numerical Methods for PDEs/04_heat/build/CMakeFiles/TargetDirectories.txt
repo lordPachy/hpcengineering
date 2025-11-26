@@ -1,0 +1,3 @@
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/04_heat/build/CMakeFiles/exercise-01.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/04_heat/build/CMakeFiles/edit_cache.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/04_heat/build/CMakeFiles/rebuild_cache.dir

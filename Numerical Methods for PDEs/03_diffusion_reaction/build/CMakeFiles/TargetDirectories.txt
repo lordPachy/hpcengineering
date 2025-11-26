@@ -1,0 +1,4 @@
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/03_diffusion_reaction/build/CMakeFiles/exercise-01.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/03_diffusion_reaction/build/CMakeFiles/exercise-01-parallel.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/03_diffusion_reaction/build/CMakeFiles/edit_cache.dir
+/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/03_diffusion_reaction/build/CMakeFiles/rebuild_cache.dir
