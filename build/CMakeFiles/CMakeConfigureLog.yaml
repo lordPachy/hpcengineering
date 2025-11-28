@@ -7537,3 +7537,207 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SQh6WE"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SQh6WE"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SQh6WE'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cdd61/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_cdd61.dir/build.make CMakeFiles/cmTC_cdd61.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SQh6WE'
+        Building C object CMakeFiles/cmTC_cdd61.dir/test_mpi.c.o
+        /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_cdd61.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SQh6WE/test_mpi.c
+        Linking C executable cmTC_cdd61
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cdd61.dir/link.txt --verbose=1
+        /usr/bin/gcc CMakeFiles/cmTC_cdd61.dir/test_mpi.c.o -o cmTC_cdd61  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SQh6WE'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-84NIpY"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-84NIpY"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-84NIpY'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cfbf4/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_cfbf4.dir/build.make CMakeFiles/cmTC_cfbf4.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-84NIpY'
+        Building CXX object CMakeFiles/cmTC_cfbf4.dir/test_mpi.cpp.o
+        /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_cfbf4.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-84NIpY/test_mpi.cpp
+        Linking CXX executable cmTC_cfbf4
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cfbf4.dir/link.txt --verbose=1
+        /usr/bin/g++ CMakeFiles/cmTC_cfbf4.dir/test_mpi.cpp.o -o cmTC_cfbf4  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-84NIpY'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-CF4pjD"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-CF4pjD"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-CF4pjD'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8ed1e/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_8ed1e.dir/build.make CMakeFiles/cmTC_8ed1e.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-CF4pjD'
+        Building CXX object CMakeFiles/cmTC_8ed1e.dir/test_mpi.cpp.o
+        /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_8ed1e.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-CF4pjD/test_mpi.cpp
+        Linking CXX executable cmTC_8ed1e
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8ed1e.dir/link.txt --verbose=1
+        /usr/bin/g++ CMakeFiles/cmTC_8ed1e.dir/test_mpi.cpp.o -o cmTC_8ed1e  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-CF4pjD'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bvG9kM"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bvG9kM"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bvG9kM'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_acb82/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_acb82.dir/build.make CMakeFiles/cmTC_acb82.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bvG9kM'
+        Building C object CMakeFiles/cmTC_acb82.dir/test_mpi.c.o
+        /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_acb82.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bvG9kM/test_mpi.c
+        Linking C executable cmTC_acb82
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_acb82.dir/link.txt --verbose=1
+        /usr/bin/gcc CMakeFiles/cmTC_acb82.dir/test_mpi.c.o -o cmTC_acb82  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bvG9kM'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tM8RyN"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tM8RyN"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tM8RyN'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a0d72/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_a0d72.dir/build.make CMakeFiles/cmTC_a0d72.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tM8RyN'
+        Building CXX object CMakeFiles/cmTC_a0d72.dir/test_mpi.cpp.o
+        /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_a0d72.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tM8RyN/test_mpi.cpp
+        Linking CXX executable cmTC_a0d72
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a0d72.dir/link.txt --verbose=1
+        /usr/bin/g++ CMakeFiles/cmTC_a0d72.dir/test_mpi.cpp.o -o cmTC_a0d72  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tM8RyN'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0FLFWt"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0FLFWt"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0FLFWt'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_80ed6/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_80ed6.dir/build.make CMakeFiles/cmTC_80ed6.dir/build
+        gmake[1]: Entering directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0FLFWt'
+        Building CXX object CMakeFiles/cmTC_80ed6.dir/test_mpi.cpp.o
+        /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_80ed6.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0FLFWt/test_mpi.cpp
+        Linking CXX executable cmTC_80ed6
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_80ed6.dir/link.txt --verbose=1
+        /usr/bin/g++ CMakeFiles/cmTC_80ed6.dir/test_mpi.cpp.o -o cmTC_80ed6  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0FLFWt'
+        
+      exitCode: 0
+...

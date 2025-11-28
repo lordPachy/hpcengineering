@@ -14,7 +14,9 @@ We can enter our private section only if in our folder there is .ssh folder with
 
 Work directory have 100 GB soft limit, and ~110 GB of hard limit. There is no backup for it, and it is a single drive.\
 
-Home, software and work folders are actually the same on the whole cluster
+Home, software and work folders are actually the same on the whole cluster\
+
+With `ip | grep UP`  we can retrieve some information about the path we are working in.
 
 # Information about the filesystem
 
@@ -45,6 +47,26 @@ We can use the files in the PBS folders as examples of job submissions.\
 We can add an option select=7 and then place=scatter.
 
 SOLVE $HOME PROBLEM
+
+The first file checks the presence of the required libraries.\
+By typing `pbsnodes -aSj` we can retrieve the number of free and total cpu/gpus.\
+With `qsub -I` we can retrieve the state of our currently running jobs.\
+Some terminology:
+ - ncpus : threads (shared memory)
+ - mpiprocs : processes (distributed memory)
+ - host: choose a specific host
+
+ With ls /software/ -l we can query the installed software. The command in the third line sets up Spack. In Spack, we need to load the necessary modules.\
+ Note that the modules are being loaded on the requested cpu, not on the login node.
+
+```
+. /etc/profile.d/pbs.sh
+qsub -I -q cpu -l select=1:ncpus=6:mpiprocs=2:host=cpu05
+source /software/spack/share/spack/setup-env.sh
+spack load gcc@15.2.0
+spack load intel-oneapi-tbb@2022.3.0
+spack load openmpi@5.0.8
+which gcc
 
 # Containers
 

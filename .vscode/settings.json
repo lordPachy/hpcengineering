@@ -80,7 +80,8 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "barrier": "cpp"
     },
     "cmake.sourceDirectory": "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/01_elliptic"
 }
