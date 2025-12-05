@@ -20,11 +20,11 @@ $(OBJS): %.o: %.cpp
 
 clean:
 	$(RM) $(DEPEND)
-	$(RM) *.o
+	$(RM) *.o 
 
 distclean: clean
 	$(RM) $(EXEC)
-	$(RM) *.csv *.out *.bak *~
+	$(RM) *.csv *.out *.bak *~ run_parameters.json
 
 $(DEPEND): $(SRCS)
 	@$(RM) $(DEPEND)
