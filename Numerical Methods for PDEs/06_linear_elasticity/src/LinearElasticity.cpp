@@ -41,6 +41,10 @@ LinearElasticity::setup()
 
     // To construct a vector-valued finite element space, we use the FESystem
     // class. It is still derived from FiniteElement.
+    // each of the component has its own FE space.
+    // note how in this case we are repeating dim times the same FE space.
+    // remark: we could use different degrees on different directions or x components
+    // think about Stokes.
     FE_SimplexP<dim> fe_scalar(r);
     fe = std::make_unique<FESystem<dim>>(fe_scalar, dim);
 
@@ -130,6 +134,8 @@ LinearElasticity::assemble_system()
   // This class allows us to access vector-valued shape functions, so that we
   // don't have to worry about dealing with their components, but we can
   // directly use the vectorial form of the weak formulation.
+  // 0 is the starting index
+  // This is extracting the first three components
   FEValuesExtractors::Vector displacement(0);
 
   for (const auto &cell : dof_handler.active_cell_iterators())

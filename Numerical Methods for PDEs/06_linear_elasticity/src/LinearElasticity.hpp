@@ -53,9 +53,9 @@ public:
     value(const Point<dim> &p, const unsigned int component = 0) const override
     {
       if (component == 0)
-        return 0.1 * p[0];
+        return 0.25 * p[0];
       else if (component == 1)
-        return 0.1 * p[0];
+        return 0.25 * p[0];
       else // if (component == 2)
         return 0.0;
     }
