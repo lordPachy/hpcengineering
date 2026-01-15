@@ -31,7 +31,7 @@ LOOK THIS UP\
 
 # Transferring files
 
-scp -r u11172853@10.78.18.100:/home/u1172853/<filename> .
+scp -r u11172853@10.78.18.100:/home/u11172853/<filename> .
 
 # Resource manager
 
