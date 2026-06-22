@@ -18860,3 +18860,1347 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-F7bNFv"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-F7bNFv"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-F7bNFv'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_13cc1
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_13cc1.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-F7bNFv/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_13cc1.dir/test_mpi.c.o -o cmTC_13cc1  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-QZzJva"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-QZzJva"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-QZzJva'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_13d66
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_13d66.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-QZzJva/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_13d66.dir/test_mpi.cpp.o -o cmTC_13d66  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-inWRFJ"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-inWRFJ"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-inWRFJ'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_17005
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_17005.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-inWRFJ/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_17005.dir/test_mpi.cpp.o -o cmTC_17005  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-3yis8e"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-3yis8e"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-3yis8e'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_29d71
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_29d71.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-3yis8e/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_29d71.dir/test_mpi.c.o -o cmTC_29d71  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-hP76uR"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-hP76uR"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-hP76uR'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_306d2
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_306d2.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-hP76uR/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_306d2.dir/test_mpi.cpp.o -o cmTC_306d2  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-PkHm3N"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-PkHm3N"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-PkHm3N'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_c7818
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_c7818.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-PkHm3N/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_c7818.dir/test_mpi.cpp.o -o cmTC_c7818  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-LxFidg"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-LxFidg"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-LxFidg'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_6da75
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_6da75.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-LxFidg/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_6da75.dir/test_mpi.c.o -o cmTC_6da75  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-t9Sol5"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-t9Sol5"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-t9Sol5'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_d25a3
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_d25a3.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-t9Sol5/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_d25a3.dir/test_mpi.cpp.o -o cmTC_d25a3  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-cX0TGl"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-cX0TGl"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-cX0TGl'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4fd7c
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_4fd7c.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-cX0TGl/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_4fd7c.dir/test_mpi.cpp.o -o cmTC_4fd7c  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ogDoh0"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ogDoh0"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ogDoh0'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_a1f22
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_a1f22.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ogDoh0/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_a1f22.dir/test_mpi.c.o -o cmTC_a1f22  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ZsPGN"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ZsPGN"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ZsPGN'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_5d7b1
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_5d7b1.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ZsPGN/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_5d7b1.dir/test_mpi.cpp.o -o cmTC_5d7b1  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HcQFcj"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HcQFcj"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HcQFcj'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_16bd4
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_16bd4.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HcQFcj/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_16bd4.dir/test_mpi.cpp.o -o cmTC_16bd4  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0XKMhg"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0XKMhg"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0XKMhg'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_59be2
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_59be2.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-0XKMhg/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_59be2.dir/test_mpi.c.o -o cmTC_59be2  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Gpm60E"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Gpm60E"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Gpm60E'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b2356
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_b2356.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Gpm60E/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_b2356.dir/test_mpi.cpp.o -o cmTC_b2356  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-XnyCRl"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-XnyCRl"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-XnyCRl'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_82aef
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_82aef.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-XnyCRl/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_82aef.dir/test_mpi.cpp.o -o cmTC_82aef  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-sUsjSa"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-sUsjSa"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-sUsjSa'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_79bdb
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_79bdb.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-sUsjSa/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_79bdb.dir/test_mpi.c.o -o cmTC_79bdb  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lUUfM8"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lUUfM8"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lUUfM8'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_e126b
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_e126b.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lUUfM8/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_e126b.dir/test_mpi.cpp.o -o cmTC_e126b  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-G2xCYT"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-G2xCYT"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-G2xCYT'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_50967
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_50967.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-G2xCYT/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_50967.dir/test_mpi.cpp.o -o cmTC_50967  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ArG6FB"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ArG6FB"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ArG6FB'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_8c066
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_8c066.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-ArG6FB/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_8c066.dir/test_mpi.c.o -o cmTC_8c066  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ACE9p"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ACE9p"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ACE9p'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_5b3ef
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_5b3ef.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-5ACE9p/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_5b3ef.dir/test_mpi.cpp.o -o cmTC_5b3ef  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RF3OhA"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RF3OhA"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RF3OhA'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_32392
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_32392.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RF3OhA/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_32392.dir/test_mpi.cpp.o -o cmTC_32392  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-l0RBwG"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-l0RBwG"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-l0RBwG'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_3866c
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_3866c.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-l0RBwG/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_3866c.dir/test_mpi.c.o -o cmTC_3866c  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bn5JpC"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bn5JpC"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bn5JpC'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_623e3
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_623e3.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-bn5JpC/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_623e3.dir/test_mpi.cpp.o -o cmTC_623e3  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OsTVL6"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OsTVL6"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OsTVL6'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_c28e7
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_c28e7.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OsTVL6/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_c28e7.dir/test_mpi.cpp.o -o cmTC_c28e7  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-wivQgS"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-wivQgS"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-wivQgS'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b45d0
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_b45d0.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-wivQgS/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_b45d0.dir/test_mpi.c.o -o cmTC_b45d0  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SyJub1"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SyJub1"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SyJub1'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_ec728
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_ec728.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-SyJub1/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_ec728.dir/test_mpi.cpp.o -o cmTC_ec728  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lSUPSP"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lSUPSP"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lSUPSP'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_2f12c
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_2f12c.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-lSUPSP/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_2f12c.dir/test_mpi.cpp.o -o cmTC_2f12c  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9KrS45"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9KrS45"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9KrS45'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_074c5
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_074c5.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9KrS45/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_074c5.dir/test_mpi.c.o -o cmTC_074c5  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-shzrau"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-shzrau"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-shzrau'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_c96e4
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_c96e4.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-shzrau/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_c96e4.dir/test_mpi.cpp.o -o cmTC_c96e4  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-UKw3xw"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-UKw3xw"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-UKw3xw'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_37197
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_37197.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-UKw3xw/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_37197.dir/test_mpi.cpp.o -o cmTC_37197  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Omjfh3"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Omjfh3"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Omjfh3'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_2fa61
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_2fa61.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Omjfh3/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_2fa61.dir/test_mpi.c.o -o cmTC_2fa61  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-oDXFyO"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-oDXFyO"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-oDXFyO'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_a738a
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_a738a.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-oDXFyO/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_a738a.dir/test_mpi.cpp.o -o cmTC_a738a  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-8yji9X"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-8yji9X"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-8yji9X'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_6b811
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_6b811.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-8yji9X/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_6b811.dir/test_mpi.cpp.o -o cmTC_6b811  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-jo0QEb"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-jo0QEb"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-jo0QEb'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_77287
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_77287.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-jo0QEb/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_77287.dir/test_mpi.c.o -o cmTC_77287  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-WnMQUD"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-WnMQUD"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-WnMQUD'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_65ac4
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_65ac4.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-WnMQUD/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_65ac4.dir/test_mpi.cpp.o -o cmTC_65ac4  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Obh0y4"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Obh0y4"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Obh0y4'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_8c84f
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_8c84f.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Obh0y4/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_8c84f.dir/test_mpi.cpp.o -o cmTC_8c84f  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RDp3I1"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RDp3I1"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RDp3I1'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4277a
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_4277a.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-RDp3I1/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_4277a.dir/test_mpi.c.o -o cmTC_4277a  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-VS4vpu"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-VS4vpu"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-VS4vpu'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_56fed
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_56fed.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-VS4vpu/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_56fed.dir/test_mpi.cpp.o -o cmTC_56fed  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tbcOq9"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tbcOq9"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tbcOq9'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_c81b2
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_c81b2.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-tbcOq9/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_c81b2.dir/test_mpi.cpp.o -o cmTC_c81b2  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-MzaXTS"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-MzaXTS"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-MzaXTS'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_0f1b9
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_0f1b9.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-MzaXTS/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_0f1b9.dir/test_mpi.c.o -o cmTC_0f1b9  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-K5580Y"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-K5580Y"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-K5580Y'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_88b36
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_88b36.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-K5580Y/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_88b36.dir/test_mpi.cpp.o -o cmTC_88b36  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HanAUJ"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HanAUJ"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HanAUJ'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4e83e
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_4e83e.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-HanAUJ/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_4e83e.dir/test_mpi.cpp.o -o cmTC_4e83e  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-b22zVr"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-b22zVr"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-b22zVr'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_da2e5
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_da2e5.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-b22zVr/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_da2e5.dir/test_mpi.c.o -o cmTC_da2e5  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-nEMSyH"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-nEMSyH"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-nEMSyH'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_147df
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_147df.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-nEMSyH/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_147df.dir/test_mpi.cpp.o -o cmTC_147df  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OcozsU"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OcozsU"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OcozsU'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_fe2f7
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_fe2f7.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-OcozsU/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_fe2f7.dir/test_mpi.cpp.o -o cmTC_fe2f7  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Zii0lq"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Zii0lq"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Zii0lq'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_25159
+        [1/2] /usr/bin/gcc  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_25159.dir/test_mpi.c.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-Zii0lq/test_mpi.c
+        [2/2] : && /usr/bin/gcc   CMakeFiles/cmTC_25159.dir/test_mpi.c.o -o cmTC_25159  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9Mxchd"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9Mxchd"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9Mxchd'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_fe364
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_fe364.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-9Mxchd/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_fe364.dir/test_mpi.cpp.o -o cmTC_fe364  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "/home/pachy/Desktop/HPCE/hpcengineering/Numerical Methods for PDEs/common/cmake-common.cmake:16 (find_package)"
+      - "CMakeLists.txt:4 (include)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-qB4Io0"
+      binary: "/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-qB4Io0"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-qB4Io0'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4ce0f
+        [1/2] /usr/bin/g++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=gnu++17 -o CMakeFiles/cmTC_4ce0f.dir/test_mpi.cpp.o -c /home/pachy/Desktop/HPCE/hpcengineering/build/CMakeFiles/CMakeScratch/TryCompile-qB4Io0/test_mpi.cpp
+        [2/2] : && /usr/bin/g++   CMakeFiles/cmTC_4ce0f.dir/test_mpi.cpp.o -o cmTC_4ce0f  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so  /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so && :
+        
+      exitCode: 0
+...

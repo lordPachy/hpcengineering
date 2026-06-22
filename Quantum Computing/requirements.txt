@@ -1,0 +1,10 @@
+jupyter
+pandas
+numpy
+matplotlib
+seaborn
+qiskit
+qiskit-ibm-runtime
+qiskit-aer
+pylatexenc
+sympy
