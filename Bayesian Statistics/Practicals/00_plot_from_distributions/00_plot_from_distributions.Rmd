@@ -1,0 +1,187 @@
+---
+title: 'LAB 1: Plots from known probability distributions'
+subtitle: "Bayesian Statistics - a.y. 2026/2027"
+date: "18/09/2026"
+output: pdf_document
+---
+
+# Gamma distribution
+
+The probability density function (pdf) of a Gamma random variable is
+
+$$
+f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} \exp(-\beta x) \mathbb I_{[ x \geq 0]}
+$$
+with $\alpha, \beta > 0$. How does $(\alpha, \beta)$ influence the shape of this distribution?
+
+```{r}
+gamma_pdf <- function(x, alpha, beta) {
+  beta^alpha / gamma(alpha) * 
+    (x^(alpha - 1)) * 
+    exp(-beta * x) * 
+    as.numeric(x >= 0)
+}
+```
+
+```{r}
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 1))
+
+alphas <- c(0.8, 1.5, 2.5, 5, 10, 20)
+betas <- c(0.5, 1, 2, 5)
+
+xgrids <- list(
+  seq(0.001, 2.0, length.out = 1000),
+  seq(0.001, 3.0, length.out = 1000),
+  seq(0.001, 6.0, length.out = 1000),
+  seq(0.001, 20, length.out = 1000),
+  seq(0.001, 30, length.out = 1000),
+  seq(0.001, 80, length.out = 1000)
+)
+
+colormap <- colorRampPalette(c("#9ECAE1", "#08519C"))(length(betas))
+
+for (i in seq_along(alphas)) {
+  alpha <- alphas[i]
+  
+  y_vals <- sapply(betas, function(b) gamma_pdf(xgrids[[i]], alpha, b))
+  
+  plot(xgrids[[i]], y_vals[, 1], type = "l", col = colormap[1], lwd = 3,
+       ylim = c(0, max(y_vals)), xlab = "", ylab = "",
+       main = sprintf("alpha: %g", alpha), cex.main = 1.6)
+  
+  for (j in 2:length(betas)) {
+    lines(xgrids[[i]], y_vals[, j], col = colormap[j], lwd = 3)
+  }
+  
+  if (i == 1) {
+    legend("topright", legend = sprintf("beta: %g", betas), 
+           col = colormap, lwd = 3, cex = 1.4)
+  }
+}
+```
+
+# Beta distribution
+
+The pdf of a Beta random variable is the following:
+
+$$
+f(x) = \frac{1}{B(\alpha_1, \alpha_2)} x^{\alpha_1 - 1} (1 - x)^{\alpha_2 - 1} \mathbb{I}_{[x \in (0, 1)]}
+$$
+with $\alpha_1, \alpha_2 > 0$.
+```{r}
+beta_fn <- function(alpha_1, alpha_2) {
+  gamma(alpha_1) * gamma(alpha_2) / gamma(alpha_1 + alpha_2)
+}
+
+beta_pdf <- function(x, alpha_1, alpha_2) {
+  x^(alpha_1 - 1) * (1 - x)^(alpha_2 - 1) / beta_fn(alpha_1, alpha_2) * 
+    as.numeric(x > 0) * as.numeric(x < 1)
+}
+
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 1))
+
+alphas_1 <- c(0.5, 1, 2, 5, 10, 20)
+alphas_2 <- c(0.5, 1, 2)
+
+xgrid <- seq(0.001, 0.999, length.out = 1000)
+
+colormap <- hcl.colors(length(alphas_2), palette = "Viridis", rev = TRUE)
+
+for (i in seq_along(alphas_1)) {
+  alpha_1 <- alphas_1[i]
+  
+  y_vals <- sapply(alphas_2, function(b) beta_pdf(xgrid, alpha_1, b))
+  
+  plot(xgrid, y_vals[, 1], type = "l", col = colormap[1], lwd = 2.5,
+       ylim = c(0, max(y_vals)), xlab = "", ylab = "",
+       main = bquote(alpha[1] == .(alpha_1)), cex.main = 1.6)
+  
+  for (j in 2:length(alphas_2)) {
+    lines(xgrid, y_vals[, j], col = colormap[j], lwd = 2.5)
+  }
+  
+  if (i == 1) {
+    legend_labels <- sapply(alphas_2, function(a2) bquote(alpha[2] == .(a2)))
+    legend("topright", legend = as.expression(legend_labels), 
+           col = colormap, lwd = 2.5, cex = 1.4)
+  }
+}
+```
+
+# Dirichlet distribution
+
+The pdf of the Dirichlet random variable is:
+
+$$
+f(x) = \frac{1}{B(\alpha_1, \ldots, \alpha_k)} \prod_{j=1}^k x_j^{\alpha_j - 1} \mathbb{I}_{[x \in S^{k-1}]}
+$$
+The pdf is highly influenced by the value of $\alpha_1,\dots,\alpha_k$: higher values of $\alpha_i$ relative to the other parameters will increase the likelihood of observing a higher value for the corresponding $x_i$. Here we use the `R` package `ternary` to visualize this on the 2-dimensional simplex.
+```{r}
+multi_beta_fn <- function(alphas) {
+  prod(gamma(alphas)) / gamma(sum(alphas))
+}
+
+# install the package if needed
+# install.packages("Ternary")
+library(Ternary)
+
+alphas <- list(
+  rep(1, 3),
+  c(0.9, 0.9, 0.9),
+  c(5, 5, 5),
+  c(2, 4, 8)
+) 
+
+par(mfrow = c(2, 2), mar = c(1, 1, 1, 1))
+
+my_spectrum <- hcl.colors(256, palette = "YlOrRd")
+
+for (i in 1:4) {
+  current_alphas <- paste(alphas[[i]], collapse = ", ")
+  plot_title <- paste0("Alpha = (", current_alphas, ")")
+  
+  TernaryPlot(
+    alab = "x1", 
+    blab = "x2", 
+    clab = "x3", 
+    axis.labels = c(0, NA, 0.2, NA, 0.4, NA, 0.6, NA, 0.8, NA, 1),
+    main = plot_title,
+    lab.cex = 0.8,    
+    axis.cex = 0.6,   
+    cex = 0.8         
+  )
+  
+  dirichlet_pdf <- function(a, b, c) {
+    # a -> x1 , b -> x2 , c -> x3 
+    alp <- alphas[[i]]
+    
+    (a^(alp[1] - 1) * b^(alp[2] - 1) * c^(alp[3] - 1)) / multi_beta_fn(alp)
+  }
+  
+  cols <- TernaryPointValues(dirichlet_pdf)
+  
+  if (min(cols[3, ], na.rm = TRUE) == max(cols[3, ], na.rm = TRUE)) {
+    values <- ColorTernary(cols, filled = TRUE, spectrum = NULL, resolution = 36L)
+  } else {
+    values <- ColorTernary(cols, filled = TRUE, spectrum = my_spectrum, resolution = 36L)
+  }
+}
+```
+
+# Inverse Gamma distribution
+Recall that the pdf of the Inverse Gamma distribution is given by:
+$$
+    f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}\left(\frac{1}{x}\right)^{\alpha+1} \text{e}^{-\frac{\beta}{x}}\  \mathbb{I}_{(0,+\infty)}(x)
+$$
+
+```{r}
+xgrid <- seq(0.01, 10, length.out = 1000)
+
+dinvgamma <- function(x, shape, scale) {
+  (scale^shape / gamma(shape)) * (1 / x)^(shape + 1) * exp(-scale / x)
+}
+y <- dinvgamma(xgrid, shape = 10.0, scale = 10.0)
+
+
+plot(xgrid, y, type = "l", col = "black", lwd = 1, xlab = 'x')
+```
