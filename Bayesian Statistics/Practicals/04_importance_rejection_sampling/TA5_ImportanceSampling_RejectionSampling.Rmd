@@ -33,6 +33,13 @@ nsamples <- 100
 thetas <- matrix(rnorm(nrep * nsamples), nrow = nrep, ncol = nsamples)
 
 # Compute cumulative Monte Carlo averages across rows (samples 1..100)
+# Essentially, this operation does the following:
+```
+$$
+  \hat{\theta}_{ij} = \frac{\sum_{k=1}^j\theta_{ik}}{j}
+$$  
+This is done because the i-th row represents the evolution of the average at the i-th experiment; the j-th column represents the state of all the experiments' at the j-th step-
+```{r}
 # apply with margin = 1 operates row-wise; t() transposes back to 1000 X 100
 mc_avg <- t(apply(thetas, 1, function(row) cumsum(row) / 1:nsamples))
 
@@ -70,7 +77,7 @@ abline(h = 0, lty = 2, col = "darkgray")
 set.seed(123)
 nrep <- 1000
 nsamples <- 100
-sigmas <- c(0.2, 0.4, 0.8, 1.5)
+sigmas <- c(0.2, 0.4, 0.8, 1, 1.5)
 
 # Setup 1 X 4 panel layout
 par(mfrow = c(1, length(sigmas)), mar = c(4, 4, 3, 1))
@@ -117,7 +124,7 @@ par(mfrow = c(1, 1))
 *Hint*: you have to minimize the variance of the IS estimator.
 
 ## Example 2- Importance Sampling for posterior inference on the `VetBP` dataset
-
+$$
 \begin{equation*}
 \begin{aligned}
     y_1, \ldots, y_n \mid \mu, \sigma & \stackrel{\tiny{iid}}{\sim} \mathcal{N}(\mu, \sigma^2) \\
@@ -125,7 +132,7 @@ par(mfrow = c(1, 1))
     \sigma & \sim \text{logN}(\log(13.43), 0.5)
 \end{aligned}
 \end{equation*}
-
+$$
 ```{r}
 sigrange <- seq(0.01, 100, length.out = 1000)
 density_vals <- dlnorm(sigrange, meanlog = log(13.43), sdlog = 0.5)
@@ -139,6 +146,7 @@ plot(
 ```{r, include = T}
 df <- read.csv("vetbp.csv")
 sbp <- df$SBP_00
+length(sbp)
 ```
 
 ### The choice of $q$
@@ -166,13 +174,15 @@ sample_prior <- function(size, mu_mean, mu_std, sig_loc, sig_scale) {
 normalized_is_weights_prior <- function(data, samples) {
   mu_samples <- samples[, 1]
   sigma_samples <- samples[, 2]
-  log_lik <- numeric(nrow(samples))
+  log_lik <- numeric(nrow(samples)) # creates a vector samples-long
   # For each sample w(theta) = L(y | theta) * pi(theta) / q(theta)
   # here pi(theta) = q(theta) because I am using the prior as proposal
   # so w(theta) = L(y | theta)
   for (i in 1:nrow(samples)) {
     log_lik[i] <- sum(dnorm(data, mean = mu_samples[i], sd = sigma_samples[i], log = TRUE))
   }
+  
+  # Note that we are summing the samples across the data-axis, because we are considering the log-likelihood. It means considering the log-likelihood for each possible choice of mu and sigma
   
   log_weights <- (log_lik)
   
@@ -184,8 +194,8 @@ normalized_is_weights_prior <- function(data, samples) {
   lse <- max_log + log(sum(exp(log_weights - max_log)))
   
   # Compute normalized weights in probability space
-  log_norm_weights <- log_weights - lse
-  return(exp(log_norm_weights))
+  log_norm_weights <- log_weights - lse # subtracting is like dividing in log-domain
+  return(exp(log_norm_weights)) # returning back to "normal" domain
 }
 ```
 
@@ -248,6 +258,8 @@ normalized_is_weights_q <- function(data, samples,
     sum(dnorm(data, mean = p[1], sd = p[2], log = TRUE))
   })
   
+  print(log_liks)
+  
   # mu ~ Normal(prior_mu_mean, prior_mu_std)
   # sigma ~ LogNormal(prior_sig_loc, prior_sig_scale)
   log_prior_mu  <- dnorm(mu_samples, mean = prior_mu_mean, sd = prior_mu_std, log = TRUE)
@@ -294,7 +306,9 @@ weights <-  normalized_is_weights_q(sbp, samples, 124, 7.5, log(13.43), 0.5,
                                   134.5, sqrt(10), sigmahat, sqrt(2))
 cat("Sum of weights: ", sum(weights), "\n")
 
-mean_sig <- sum(weights * samples[, 1])
+mean_mu <- sum(weights * samples[, 1])
+cat("mean_mu: ", mean_mu, "\n")
+mean_sig <- sum(weights * samples[, 2])
 cat("mean_sig: ", mean_sig, "\n")
 
 ess <-  1.0 / sum(weights ^ 2)
@@ -304,6 +318,123 @@ cat("ess: ", ess, "\n")
 **Homework**
 
 Experiment a bit on the proposal distribution. For instance, we could use as proposal $q$ the posterior from the Normal-Inverse Gamma model (which is conjugate and known in closed form).
+
+```{r}
+# Proposal sampler: NNIG
+sample_nig_q <- function(size, mu_0, lambda, alpha_0, beta_0) {
+  sigma_sq <- extraDistr::rinvgamma(size, alpha = alpha_0,  beta = beta_0)
+  mu    <- rnorm(size, mean = mu_0, sd = sqrt(sigma_sq/lambda))
+  
+  cbind(mu = mu, sigma = sqrt(sigma_sq))
+}
+
+compute_nig_posterior_parameters <- function(data, mu_0, lambda, alpha_0, beta_0) {
+  # Computation of sigma posterior parameters
+  avg <- mean(data)
+  
+  post_alpha <- alpha_0 + length(data)/2
+  post_beta <- beta_0 + 0.5 * sum((data - avg)**2) + length(data) * lambda * (avg - mu_0)**2 / (2 * (length(data) + lambda))
+  
+  # Computation of mu posterior parameters  
+  post_mu <- (length(data) * avg + lambda * mu_0) / (length(data) + lambda)
+  post_lambda <- length(data) + lambda
+  
+  return (list(post_alpha = post_alpha, post_beta = post_beta, post_mu = post_mu, post_lambda = post_lambda))
+}
+
+normalized_is_nig_weights_q <- function(data, samples, 
+                                    prior_mu_mean, prior_mu_std, 
+                                    prior_sig_loc, prior_sig_scale, 
+                                    prop_mu_0, prop_lambda, 
+                                    prop_alpha_0, prop_beta_0) {
+  
+  mu_samples    <- samples[, 1]
+  sigma_samples <- samples[, 2]
+  
+  # For each sample w(theta) = L(y | theta) * pi(theta) / q(theta)
+  # here pi(theta) != q(theta)
+  log_liks <- apply(samples, 1, function(p) {
+    if (p[2] <= 0) return(-Inf) # Guard against invalid sigma
+    sum(dnorm(data, mean = p[1], sd = p[2], log = TRUE))
+  })
+  
+  # mu ~ Normal(prior_mu_mean, prior_mu_std)
+  # sigma ~ LogNormal(prior_sig_loc, prior_sig_scale)
+  log_prior_mu  <- dnorm(mu_samples, mean = prior_mu_mean, sd = prior_mu_std, log = TRUE)
+  log_prior_sig <- suppressWarnings(
+    dlnorm(sigma_samples, meanlog = prior_sig_loc, sdlog = prior_sig_scale, log = TRUE)
+  )
+  log_prior_sig[sigma_samples <= 0] <- -Inf
+  log_prior <- log_prior_mu + log_prior_sig
+  
+  # Compute log-proposal log q(mu, sigma) = log q(mu|sigma) + log q(sigma)
+  # 1/sigma ~ Gamma(shape = prop_alpha_0, rate = prop_beta_0)
+  # mu | sigma ~ Normal(prop_mu_0, 1/(prop_lambda * sigma))
+  log_prop_sig <- extraDistr::dinvgamma(sigma_samples**2, alpha = prop_alpha_0, beta = prop_beta_0, log = TRUE)
+  log_prop_mu  <- dnorm(mu_samples, mean = prop_mu_0, sd = sigma_samples/sqrt(prop_lambda), log = TRUE)
+  
+  log_prop     <- log_prop_mu + log_prop_sig
+  log_weights <- log_liks + log_prior - log_prop
+  
+  # LogSumExp trick for numerical normalization
+  valid_idx <- is.finite(log_weights)
+  if (!any(valid_idx)) {
+    stop("All particle log-weights are non-finite. Check proposal overlap with prior/likelihood.")
+  }
+  
+  max_log <- max(log_weights[valid_idx])
+  lse <- max_log + log(sum(exp(log_weights[valid_idx] - max_log)))
+  
+  weights <- numeric(length(log_weights))
+  weights[valid_idx] <- exp(log_weights[valid_idx] - lse)
+  
+  return(weights)
+}
+```
+
+```{r}
+attach(compute_nig_posterior_parameters(sbp, 134.5, 1, 1, 1))
+# post_mu
+# post_lambda
+# post_alpha
+# post_beta
+samples <-  sample_nig_q(10000, post_mu, post_lambda, post_alpha, post_beta)
+weights <-  normalized_is_nig_weights_q(sbp, samples, 124, 7.5, log(13.43), 0.5,
+                                  post_mu, post_lambda, post_alpha, post_beta)
+cat("Sum of weights: ", sum(weights), "\n")
+
+mean_mu <- sum(weights * samples[, 1])
+cat("mean_mu: ", mean_mu, "\n")
+mean_sig <- sum(weights * samples[, 2])
+cat("mean_sig: ", mean_sig, "\n")
+
+ess <-  1.0 / sum(weights ^ 2)
+cat("ess: ", ess, "\n")
+```
+
+We can plot the posterior density functions of the variance and of the mean (assuming variance expected value)
+```{r}
+sigrange <- seq(0.01, 1000, length.out = 1000)
+density_vals <-extraDistr::dinvgamma(sigrange, alpha = post_alpha, beta = post_beta)
+
+plot(
+  sqrt(sigrange), density_vals, type = "l", col = "steelblue", lwd = 2,
+  xlab = expression(sigma), ylab = "Density", main = "Inverse Gamma Density"
+)
+```
+
+```{r}
+sigrange <- seq(130, 140, length.out = 1000)
+post_sd = sqrt(post_beta/(post_alpha * post_lambda))
+print(post_sd)
+density_vals <-dnorm(sigrange, mean = post_mu, sd = post_sd)
+
+plot(
+  sigrange, density_vals, type = "l", col = "steelblue", lwd = 2,
+  xlab = expression(mu), ylab = "Density", main = "Normal Density"
+)
+```
+
 
 ## Sampling from the posterior using Importance Sampling
 
