@@ -77,7 +77,7 @@ abline(h = 0, lty = 2, col = "darkgray")
 set.seed(123)
 nrep <- 1000
 nsamples <- 100
-sigmas <- c(0.2, 0.4, 0.8, 1, 1.5)
+sigmas <- c(0.35, sqrt(2)/2, 1, sqrt(2))
 
 # Setup 1 X 4 panel layout
 par(mfrow = c(1, length(sigmas)), mar = c(4, 4, 3, 1))
@@ -552,3 +552,48 @@ What happens when
 1. [a, b] is centered around 0 and large (e.g. [-1, 1])
 2. [a, b] is centered around 0 and small (e.g. [-0.5, 0.5])
 3. [a, b] moves to one of the tail (e.g. consider [$a_n, b_n$] = [-1 + n, 1+n])
+
+```{r}
+# Target unnormalized log-posterior/density for x
+log_trunc_norm <- function(prop, a, b) {
+  if (prop < a) return(-Inf)
+  if (prop >= b) return (0)
+  log(pnorm(prop) - pnorm(a))
+}
+
+
+# Rejection sampling for full conditional of x
+sample_fullcond_trunc_norm <- function(a, b) {
+  
+  repeat {
+    # Draw from Standard normal
+    prop <- rnorm(1)
+    
+    # Draw uniform acceptance threshold
+    u <- runif(1)
+    
+    # Accept/Reject decision in log-space
+    log_alpha <- log_trunc_norm(prop, a, b) - dnorm(prop, log = TRUE)
+    
+    if (log(u) < log_alpha) {
+      return(prop)
+    }
+  }
+}
+```
+
+```{r}
+set.seed(42)
+
+# Draw 1000 samples
+rej_samps <- replicate(1000, sample_fullcond_trunc_norm(-1, 1))
+
+hist(
+  rej_samps, 
+  breaks = 30, 
+  col = "steelblue", 
+  border = "white",
+  xlab = expression(x), 
+  main = expression("Rejection Sampling Draws for " * x * ")")
+)
+```
