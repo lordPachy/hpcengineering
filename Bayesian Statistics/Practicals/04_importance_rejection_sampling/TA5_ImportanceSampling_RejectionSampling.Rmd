@@ -557,16 +557,18 @@ What happens when
 # Target unnormalized log-posterior/density for x
 log_trunc_norm <- function(prop, a, b) {
   if (prop < a) return(-Inf)
-  if (prop >= b) return (0)
-  log(pnorm(prop) - pnorm(a))
+  if (prop >= b) return (-Inf)
+  log(dnorm(prop))
 }
 
 
 # Rejection sampling for full conditional of x
 sample_fullcond_trunc_norm <- function(a, b) {
+  i <- 0
   
   repeat {
     # Draw from Standard normal
+    i <-  i+1
     prop <- rnorm(1)
     
     # Draw uniform acceptance threshold
@@ -576,7 +578,7 @@ sample_fullcond_trunc_norm <- function(a, b) {
     log_alpha <- log_trunc_norm(prop, a, b) - dnorm(prop, log = TRUE)
     
     if (log(u) < log_alpha) {
-      return(prop)
+      return(c(prop, i))
     }
   }
 }
@@ -585,15 +587,49 @@ sample_fullcond_trunc_norm <- function(a, b) {
 ```{r}
 set.seed(42)
 
-# Draw 1000 samples
-rej_samps <- replicate(1000, sample_fullcond_trunc_norm(-1, 1))
+trials <- 1000
 
+# Draw 1000 samples
+rej_samps <- replicate(trials, sample_fullcond_trunc_norm(-1, 1))
 hist(
-  rej_samps, 
+  rej_samps[1, ], 
   breaks = 30, 
   col = "steelblue", 
   border = "white",
   xlab = expression(x), 
   main = expression("Rejection Sampling Draws for " * x * ")")
 )
+print("Proportion of accepted samples:")
+print(trials/sum(rej_samps[2, ]))
+```
+
+```{r}
+set.seed(42)
+
+trials <- 1000
+
+# Draw 1000 samples
+rej_samps <- replicate(trials, sample_fullcond_trunc_norm(-0.5, 0.5))
+hist(
+  rej_samps[1, ], 
+  breaks = 30, 
+  col = "steelblue", 
+  border = "white",
+  xlab = expression(x), 
+  main = expression("Rejection Sampling Draws for " * x * ")")
+)
+print("Proportion of accepted samples:")
+print(trials/sum(rej_samps[2, ]))
+```
+```{r}
+set.seed(42)
+
+trials <- 1000
+n <- c(1, 2, 3)
+for (i in n){
+  # Draw 1000 samples
+  rej_samps <- replicate(trials, sample_fullcond_trunc_norm(-1+i, 1+i))
+
+  print(trials/sum(rej_samps[2, ]))
+}
 ```
