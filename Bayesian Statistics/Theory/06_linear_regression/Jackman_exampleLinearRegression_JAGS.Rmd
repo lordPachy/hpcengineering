@@ -1,0 +1,488 @@
+---   
+title: "Example of a linear regression model via JAGS"
+output:
+  html_document:
+    df_print: paged
+---
+### A linear regression example ###
+### Example 2.15 - S. Jackman (2009)###
+
+In November 1993, the state of Pennsylvania conducted elections for its state legislature. The result in the Senate election in the 2nd district (based in Philadelphia) was challenged in court, and ultimately overturned. 
+The Democratic candidate won 19,127 of the votes cast by voting machine, while the Republican won 19,691 votes cast by voting machine, giving the Republican a lead of 564 votes. 
+However, the Democrat won 1,396 absentee ballots, while the Republican won just 371 absentee 
+ballots, more than offsetting the Republican lead based on the votes recorded by machines on election day. 
+The Republican candidate sued, claiming that many of the absentee ballots were fraudulent. 
+
+The judge in the case solicited expert analysis from Orley Ashenfelter, an economist at Princeton University. Ashenfelter examined the relationship between absentee vote margins and machine vote margins in 21 previous Pennsylvania Senate elections in seven districts in the Philadelphia area over the preceding decade.
+
+This is an **outlier detection** problem in the context of simple linear  regression in the Pennsylvania state senate election.
+
+**response** Y= **abseentee vote margin** (difference of Democrat percentage and Republican percentage) in the absentee ballot
+Absentee ballot = VOTO A DISTANZA
+See Jackman, from p. 87 
+
+**covariate** x = **machine vote margin** (difference of Democrat  percentage and Republican percentage)
+
+
+R package pscl where you can find the dataset: "absentee" is a dataframe with 22 observations on 8 variables.
+
+ 
+```{r}
+library(pscl)
+data(absentee)
+help(absentee) # A data frame with 22 observations on 8 variables.
+summary(absentee)
+```
+
+```{r}
+attach(absentee)
+```
+
+Create variables for regression analysis:
+```{r}
+y <- (absdem - absrep)/(absdem + absrep)*100 #abseentee vote margins
+x <- (machdem - machrep)/(machdem + machrep)*100 #machine vote margins
+```
+It is the 22nd datapoint to be suspect! 
+```{r}
+x[22]
+y[22]
+```
+#### DATA PLOT and Ordinary Least Squares Estimates ####
+
+```{r}
+plot(y~x,type="n",xlim=range(x),ylim=range(y),
+     xlab="Democratic Margin, Machine Ballots (Percentage Points)",
+     ylab="Democratic Margin, Absentee Ballots (Percentage Points)")
+
+ols <- lm(y ~ x, subset=c(rep(TRUE,21),FALSE)) ## OLS analysis of the 
+                                      ## dataset, but DROP data point 22
+
+abline(ols,lwd=2) ## overlay ols (retta di regressione stimata, senza il dato 22)
+points(x[-22],y[-22],pch=1) ## data
+points(x[22],y[22],pch=16) ## disputed data point
+text(x[22],y[22],"Disputed\nElection",cex=.75,pos=1)  
+axis(1)
+axis(2)
+```
+
+```{r}
+summary(ols)
+```
+
+#### Example of JAGS  use ####         
+#### JAGS = Just Another Gibbs Sampler ####
+ 
+http://mcmc-jags.sourceforge.net/   
+WEB SITE: info and instructions on JAGS downloading
+
+Of, course, you can use Stan instead of JAGS. 
+
+JAGS is Just Another Gibbs Sampler. It is a program for the analysis of Bayesian models
+using Markov Chain Monte Carlo (MCMC) which is not wholly unlike  OpenBUGS (http://www.openbugs.info). 
+
+JAGS was written with three aims in mind: 
+* to have an engine for the BUGS language that runs on Unix;
+* to be extensible, allowing users to write their own functions, distributions, and samplers; 
+* to be a platform for experimentation with ideas in Bayesian modelling.
+
+JAGS is designed to work closely with the R language and environment for statistical computation and graphics (http://www.r-project.org). 
+You will find it useful to install the **coda package** for R to analyze the output. 
+You can also use the **rjags package** to work directly with JAGS from within R. 
+
+
+
+> How to call JAGS from R? 
+
+```{r}
+rm(list=ls())
+setwd(".")
+ 
+
+#Load the library
+library(rjags)   # to interface R with JAGS
+library(pscl)
+data(absentee)
+#help(absentee)
+summary(absentee)
+
+attach(absentee)
+
+```
+Create variables for regression analysis
+```{r}
+## create variables for regression analysis
+y <- (absdem - absrep)/(absdem + absrep)*100
+x <- (machdem - machrep)/(machdem + machrep)*100
+x.sosp=x[22]
+y.sosp=y[22]
+y=y[1:21]
+x=x[1:21]
+
+```
+We apply a Bayesian regression model to the first 21 (bivariate) data points. 
+
+JAGS takes a user's description of a Bayesian model for data, and returns an MCMC sample of the posterior distribution.
+
+Define the data (in this case, datapoints (y_i), the covariate vector (x_i), the sample size, the new covariate value xstar) in a list:
+```{r}
+data = list(y=y[1:21],
+                x=x[1:21],
+                n=21,
+                xstar=x.sosp)
+```
+
+Let's fix a list of initial value for the MCMC algorithm that JAGS will implement:
+```{r}
+inits = function() {list(beta=c(0,0),
+                   tau=1,
+                   ystar=0) }
+```
+
+JAGS can automatically inizialize the chain, but the efficiency of the MCMC can be improved if we intelligently provide reasonable starting values, i.e. values in the midst of the 
+posterior, e.g. MLE, or values close to the MLE. 
+
+The Bayesian model is in the text file "regression.bug". This file, in addition to the list "data", is taken as an input by JAGS for generating the MCMC in 3 steps.
+
+The **first** step (*jags.model*) gets all the info into JAGS and let JAGS figure out appropriate sampler for the model.
+
+The **second** step (*update*) runs the chain for a burn-in period.
+
+The **third** step (*coda.samples*) runs and records the MCMC sample we will subsequently examine (using R).
+
+>Let's open the file *regression.bug* to see the model I want to apply to the data
+
+
+FIRST STEP
+```{r echo=T, results='hide'}
+
+modelRegress=jags.model("regression.bug",data=data,inits=inits,n.adapt=1000,n.chains=1)
+```
+
+Command *jags.model* compiles and initializes the model described in the text file "regression.bug"
+
+This is a text file, but we use .bug to understand what file it is, but we could also name it .txt); as an input, we have "data" and JAGS then run the sampler for n.chain iterations.  
+
+By default n.adapt=1000.
+When a JAGS model is compiled, it may require an initial sampling phase during which the samplers adapt their behaviour to maximize their efficiency (e.g. a Metropolis-Hastings  random walk algorithm may change its step size). The sequence of samples generated during this adaptive phase is not a Markov chain, and therefore may not be used for posterior inference on the model.
+
+**The model in regression.bug**: File "regression.bug" specify both the likelihood and the prior; 
+
+beta has 2 components which are iid Gaussian, with mean =0 and  variance=10
+
+tau is gamma (2,2), i.e. E(tau)=Var(tau)=1
+
+In this case, the PRIOR IS NOT CONJUGATE, but it is SEMICONJUGATE. The default algorithm of JAGS is the Gibbs sampler
+
+
+SECOND STEP
+```{r echo=T, results='hide'}
+update(modelRegress,n.iter=5000) #this is the burn-in period
+## this function DOES NOT record the sampled values of parameters
+```
+THIRD STEP: we tell JAGS to generate MCMC samples that we will use to represent the posterior distribution 
+```{r}
+variable.names=c("beta", "sigma", "ystar") #parameters - see the file .bug - that will have 
+                                           # their values recorded
+n.iter=50000 
+thin=10  
+## the final sample size, i.e. the number of iterations to build the ergodic average, will be 5K
+
+```
+```{r echo=T, results='hide'}
+outputRegress=coda.samples(model=modelRegress,variable.names=variable.names,n.iter=n.iter,thin=thin)
+```
+
+The OUTPUT is mcmc.list object - coda-formatted object; it needs to be converted into a matrix, in order to be "readable".
+
+***
+##### SUMMING UP, to produce the output (the MCMC chain) using rjags 4 steps are required:#####
+
+1. Define the model using the BUGS language in a separate file.
+2. Read in the model file using the jags.model function. This creates an object of class *jags*.
+3. Update the model using the update method for jags objects. This constitutes a
+     *burn-in* period.
+ 4. Extract samples from the model object using the coda.samples function. This creates an object of class *mcmc.list* which can be used to summarize the posterior 
+    distribution. The coda package also provides convergence diagnostics to check that  the output is valid for analysis (see Plummer et al 2006).
+    
+***
+
+##### OUTPUT ANALYSIS
+```{r}
+#### save(outputRegress,file='Jackman_regr_output.Rdata')
+
+ 
+library(coda)        
+library(plotrix)    # to  plot CIs
+
+##### upload the output if we have previuosly stored it and we don't want to run the MCMC again
+#### load('Jackman_regr_output.Rdata')
+```
+
+```{r}
+data.out=as.matrix(outputRegress) # trasform the mcmc.list into a matrix,
+data.out=data.frame(data.out)     # or, better, into a dataframe (easiest to handle in R)
+attach(data.out)
+n.chain=dim(data.out)[1] 
+n.chain # this is the final sample size
+```
+Summary statistics for the posterior - Use either packege CODA, or standard tools in R:
+
+```{r}
+summary(data.out)
+head(data.out)
+```
+Autocorrelation plots
+```{r}
+par(mfrow=c(1,3))
+acf(data.out[,'beta.1.'],lwd=3,col="red3",xlab="beta1",main="")
+acf(data.out[,'beta.2.'],lwd=3,col="red3",xlab="beta2",main="")
+acf(data.out[,'sigma'],lwd=3,col="red3",xlab="sigma_res",main="")
+```
+Some nice graph to presents the posterior samples:
+```{r}
+#sub-chain containing the beta sample
+beta.post <- data.out[,1:2]
+#posterior mean of the beta parameters
+beta.bayes  <- apply(beta.post,2,"mean")
+beta.bayes
+#sub-chain whit the sigma_res samle
+sig.post= data.out[,'sigma']
+```
+```{r}
+#### MLE estimate
+pippo= lm(y ~ x)
+summary(pippo)
+
+pippo$coefficients # Comparison 
+beta.bayes
+```
+Posterior of $\beta_0$
+```{r, fig.width=12, fig.height=8, fig.align='center'}
+# Suddivisione dell'area grafica
+layout(matrix(c(1,2,3,3),
+              nrow=2, ncol=2,
+              byrow=TRUE))
+
+# Riduzione dei margini
+par(mar=c(3,3,2,1))
+## Representation of the posterior chain of  beta0
+chain <- beta.post[,1]
+#Divide the plot device in three sub-graph regions
+#two square on the upper and a rectangle on the bottom
+
+ 
+layout(matrix(c(1,2,3,3), nrow=2, ncol=2, byrow=TRUE))
+#trace-plot of the posterior chain
+plot(chain,type="l",main="Trace plot of beta0")
+# autocorrelation plot
+acf(chain,lwd=3,col="red3",main="autocorrelation of beta0")
+#Histogram
+hist(chain,nclass="fd",freq=F,main="Posterior of beta0",col="gray") 
+## Overlap the kernel-density 
+lines(density(chain),col="blue",lwd=2)
+## Posterior credible interval of beta0
+quantile(chain,prob=c(0.025,0.5,0.975))
+
+## Display the posterior credible interval on the graph
+abline(v=quantile(chain,prob=c(0.025)),col="red",lty=2,lwd=2)
+abline(v=quantile(chain,prob=c(0.5)),col="red",lty=1,lwd=2)
+abline(v=quantile(chain,prob=c(0.975)),col="red",lty=2,lwd=2)
+## Add the legend to the plot
+legend("bottomright",legend=c("posterior median", "95% Credible bounds","kernel density smoother"),lwd=c(2,2,2), col=c("red","red","blue"),lty=c(1,2,1))
+
+```
+Posterior of $\beta_1$
+```{r, fig.width=12, fig.height=8, fig.align='center'}
+# Suddivisione dell'area grafica
+layout(matrix(c(1,2,3,3),
+              nrow=2, ncol=2,
+              byrow=TRUE))
+
+# Riduzione dei margini
+par(mar=c(3,3,2,1))
+chain <- beta.post[,2]
+#Divide the plot device 
+layout(matrix(c(1,2,3,3),2,2,byrow=T))
+#trace-plot of the posterior chain
+plot(chain,type="l",main="Trace plot of beta1")
+# autocorrelation plot
+acf(chain,lwd=3,col="red3",main="autocorrelation of beta1")
+#Histogram
+hist(chain,nclass="fd",freq=F,main="Posterior of beta1",col="gray") 
+## Overlap the kernel-density 
+lines(density(chain),col="blue",lwd=2)
+#### Posterior credible interval of  beta1
+quantile(chain,prob=c(0.025,0.5,0.975))
+
+## Display the posterior credible interval on the graph
+abline(v=quantile(chain,prob=c(0.025)),col="red",lty=2,lwd=2)
+abline(v=quantile(chain,prob=c(0.5)),col="red",lty=1,lwd=2)
+abline(v=quantile(chain,prob=c(0.975)),col="red",lty=2,lwd=2)
+## Add the legend to the plot
+legend("topright",legend=c("posterior median", "95% Credible bounds","kernel density smoother"),lwd=c(2,2,2), col=c("red","red","blue"),lty=c(1,2,1))
+
+
+```
+Posterior of $\sigma$: 
+```{r, fig.width=12, fig.height=8, fig.align='center'}
+# Suddivisione dell'area grafica
+layout(matrix(c(1,2,3,3),
+              nrow=2, ncol=2,
+              byrow=TRUE))
+
+# Riduzione dei margini
+par(mar=c(3,3,2,1))
+##Representation of the posterior chain of sigma_res
+chain <-sig.post
+#Divide the plot device 
+layout(matrix(c(1,2,3,3),2,2,byrow=T))
+#trace-plot of the posterior chain
+plot(chain,type="l",main="Trace plot of sigma_res")
+# autocorrelation plot
+acf(chain,lwd=3,col="red3",main="autocorrelation of sigma_res")
+#Histogram
+hist(chain,nclass="fd",freq=F,main="Posterior of sigma_res",col="gray") 
+## Overlap the kernel-density 
+lines(density(chain),col="blue",lwd=2)
+## Posterior Credible bound of sigma_res
+quantile(chain,prob=c(0.05,0.5,0.95))
+
+## Display the posterior credible interval on the graph
+abline(v=quantile(chain,prob=c(0.025)),col="red",lty=2,lwd=2)
+abline(v=quantile(chain,prob=c(0.5)),col="red",lty=1,lwd=2)
+abline(v=quantile(chain,prob=c(0.975)),col="red",lty=2,lwd=2)
+## Add the legend to the plot
+legend("topright",legend=c("posterior median", "95% Credible bounds","kernel density smoother"),lwd=c(2,2,2), col=c("red","red","blue"),lty=c(1,2,1))
+```
+***
+#### Predictive distibution of $Y_{new}$ at $x=xstar=x^*$=suspected value  
+*ystar* column in the output contains one simulated value from $N(\beta_0+\beta_1 x^*,1/\tau)$ for each value $(\beta_0,\beta_1,\tau)$ simulated a posteriori, i.e.
+*ystar* is a MCMC sample from the predictive distribution of $Y^{new}$ corresponding at xstar
+
+```{r, fig.width=12, fig.height=8, fig.align='center'}
+# Suddivisione dell'area grafica
+layout(matrix(c(1,2,3,3),
+              nrow=2, ncol=2,
+              byrow=TRUE))
+
+# Riduzione dei margini
+par(mar=c(3,3,2,1))
+ystar.pred=data.out[,'ystar'] 
+
+chain <- ystar.pred
+#Divide the plot device in three sub-graph regions
+#two square on the upper and a rectangle on the bottom
+layout(matrix(c(1,2,3,3),2,2,byrow=T))
+#trace-plot of the posterior chain
+plot(chain,type="l",main="Trace plot of y.star")
+# autocorrelation plot
+acf(chain,lwd=3,col="red3",main="autocorrelation of ystar")
+#Histogram
+hist(chain,nclass="fd",freq=F,main="Posterior of ystar",col="gray",xlim=c(-60,60)) 
+## Overlap the kernel-density 
+lines(density(chain),col="blue",lwd=2,xlim=c(0,60))
+## Posterior credible interval of ystar
+quantile(chain,prob=c(0.025,0.5,0.975))
+
+## Display the posterior credible interval on the graph
+abline(v=quantile(chain,prob=c(0.025)),col="red",lty=2,lwd=2)
+abline(v=quantile(chain,prob=c(0.5)),col="red",lty=1,lwd=2)
+abline(v=quantile(chain,prob=c(0.975)),col="red",lty=2,lwd=2)
+## Add the legend to the plot
+#Aggiungiamo una retta relativa all'osservazione di 
+#y[22]=y.sops
+abline(v=y.sosp,col="magenta",lwd=2)
+
+legend("topleft",legend=c("posterior median", "95% Credible bounds","kernel density smoother","observed value at xstar"),lwd=c(2,2,2,2), col=c("red","red","blue","magenta"),lty=c(1,2,1,1))
+
+```
+The observed value at xstar is **OUTSIDE the 95% CI of the posterior predictive distribution**, i.e. it is rather extreme w.r.t. the posterior predictive, i.e. it is in the tails of the predictive distribution...
+
+> The 22-nd point  IS pretty suspect!!
+
+***
+#### Credible band for the regression line
+For any $x$ in a grid of point, we compute 90% CI of $Y_{new}(x)| x$
+
+The Bayesian regression line is $y = E[ beta[1]|dati]+E[ beta[2]|dati]*x$ (in the code notation)
+
+```{r}
+x.gr=seq(-50,100,length=200)
+
+#Pred is a matrix: each column contains MCMC values from the predictive distribution of Y_new(x)| x
+# each row is a draw from the predictive of the regression line (as a function of x)
+Pred <- matrix(ncol=200,nrow=n.chain)
+for(i in 1:n.chain){
+	#print(i)
+	Pred[i,]=beta.post[i,1]+beta.post[i,2]*x.gr+rnorm(1,mean=0,sd=sig.post[i]) 
+# For each fixed x in x.gr, we generate a draw from
+# the conditional distribution of a new observation,
+# given the current MCMC draw of the parameters.
+#
+# Across MCMC iterations, these draws approximate
+# the marginal posterior predictive distribution
+# of Y_new(x) at each fixed x.
+#
+# The same random error is used for all x values
+# within each iteration. Thus, the simulated vector
+# does not represent the joint posterior
+# predictive distribution of independent new responses.
+#
+# However, the marginal predictive distribution
+# at each x is correctly approximated.
+}
+dim(Pred)
+head(Pred)
+```
+```{r}
+layout(matrix(c(1,2,3,3),1,1,byrow=T))
+### Plot the mean (over columns) of  all these values 
+predit=apply(Pred,2,"mean") # this is the mean of the predictive distribution for any fixed x.gr
+plot(x.gr,predit,type="l",col="red",lwd=2)# this is a line: 
+                 # y= E(beta0|data)+E(beta_1|data)*x
+# This is the Bayesian estimate of the regression line and it is indeed a line
+points(x,y,col="green",pch="*",cex=2) #datapoints in green!
+gra=gray(1:100/100)
+gra=rep(gra,10)
+```
+Let's plot the first simulated regression lines:
+
+```{r}
+layout(matrix(c(1,2,3,3),1,1,byrow=T))
+### Plot the mean (over columns) of  all these values 
+predit=apply(Pred,2,"mean") # this is the mean of the predictive distribution for any fixed x.gr
+plot(x.gr,predit,type="l",col="red",lwd=2)# this is a line: 
+                 # y= E(beta0|data)+E(beta_1|data)*x
+# This is the Bayesian estimate of the regression line and it is indeed a line
+points(x,y,col="green",pch="*",cex=2) #datapoints in green!
+gra=gray(1:100/100)
+gra=rep(gra,10)
+
+for(i in 1:600){lines(x.gr,Pred[i,],col=gra[i])}  
+### These are lines, since we used the same simulated value
+### rnorm(1,mean=0,sd=sig.post[i]) for all x.gr
+### Remember that we have defined
+### Pred[i,]=beta.post[i,1]+beta.post[i,2]*x.gr+rnorm(1,mean=0,sd=sig.post[i])
+
+predit.qua=apply(Pred,2,"quantile",prob=c(0.05,0.95)) 
+    #QUANTILES of each predictive distribution of  Y_new(x)| x       
+### the function "quantile" has been applied column by column 
+### For any value of x.gr in the grid, we compute 3 quantiles
+### of the (simulated) distribution of y=beta0+beta1*x.gr+err 
+### and then we plot it as a function of x.gr
+lines(x.gr,predit.qua[1,],col="red",lwd=3,lty=2) 
+### THIS IS NOT a line in x! the function "quantile" is NOT linear
+lines(x.gr,predit.qua[2,],col="red",lwd=3,lty=2) 
+### THIS IS NOT a line! 
+lines(x.gr,predit,type="l",col="red",lwd=3)  
+### this IS a line, i.e. it is the Bayesian regression line
+                                ### computed before
+points(x.sosp,y.sosp,pch=16,col="magenta") ## disputed data point
+text(x.sosp,y.sosp,"Disputed\nElection",cex=.75,adj=1.25,col="magenta")
+```
+```{r}
+detach(absentee)
+```
+ 
+ 

@@ -1,0 +1,22 @@
+model{     
+	for(i in 1:n){   ## regression model for y  #loop 
+	      mu[i] <- beta[1] + beta[2]*x[i] # <- is a deterministic assignment 
+	      y[i] ~ dnorm(mu[i],tau)  # ~ denotes "distributed as"
+              # BE CAREFUL, tau is the PRECISION of the Gaussian distribution
+	} # Manual JAGS, Ch 6: list of the distributions 
+	## marginal priors
+	beta[1] ~ dnorm(0,.1)   ## intercept
+	beta[2] ~ dnorm(0,.1)   ## slope
+        ## sigma is the residual std dev  
+	            ## sigma ~ dunif(0,100) # Gelman (2006) suggests this noninformative prior 
+                                                        # in the context of hierarchical models (grouped data)
+			## tau <- pow(sigma,-2)       ## convert to precision
+	tau ~ dgamma(2,2)
+	sigma <- 1.0/sqrt(tau)
+	## out of sample predicton for suspect case
+	mustar <- beta[1] + beta[2]*xstar
+	## posterior predictive density for y[22] given 
+	## historical data obs 1 - 21 and x[22]
+	ystar ~ dnorm(mustar,tau)  
+}
+
