@@ -1,0 +1,471 @@
+---
+title: "Interactive TA1: Bayesian Mixture Models"
+date: "23/10/2026"
+output: pdf_document
+---
+
+| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |  &nbsp; |
+| :-- | :-: | :-: | :-: | :-: | :-: | :-: |
+| **Student ID** | 00000001 | 00000002 | 00000003 | 00000004 | 00000005 | 00000006 |
+| **Surname** | Surname1 | Surname2 | Surname3 | Surname4 | Surname5 | Surname6 |
+| **Name**   | Name1 | Name2 | Name3 | Name4 | Name5 | Name6 |
+
+
+```{r eval = TRUE}
+library(ggplot2)
+set.seed(0)
+```
+
+# Mixture Modelling (a.k.a. modelling heterogeneity)
+
+In mixture model, we account for heterogeneity in the data by assuming that there is not "one single" data generating process, but actually K of them. Therefore, we expect to find K different subpopulations (or _clusters_) in our data, and that each subpopulation is homogeneous: it is suitably modeled by a density, typically from a parametric family.
+
+In its most general form, let $f_1(\cdot), \ldots, f_K(\cdot)$ be $K$ probability density functions over a space $(\mathbb{Y}, \mathcal{Y})$, $\mathbf{w} = (w_1, \ldots, w_K)$ a vector in the $(K-1)$-dimensional simplex; a mixture model assumes the following likelihood
+
+\begin{equation}
+    y_1, \ldots, y_n \mid \mathbf{w}, \{f_j\}_{j=1}^K \overset{iid}{\sim} f(y) := \sum_{j=1}^K w_j f_j(y)
+    \tag{1}
+\end{equation}
+
+We refer to the $f_j$'s as the _components_ of the mixture
+
+The connection to clustering is made more explicit by introducing "cluster assignment" variables $c_i$, $i=1, \ldots, n$ such that
+$$
+    P(c_i = h \mid \mathbf{w}) = w_h
+$$
+
+Then, the mixture likelihood can be restated as the following hierarchical model
+
+\begin{equation}
+    \begin{aligned}
+        y_i \mid c_i = h, \{f_j\}_{j=1}^K & \overset{ind}{\sim} f_h \\
+        P(c_i = h \mid \mathbf{w}) &= w_h
+    \end{aligned}
+    \tag{2}
+\end{equation}
+
+Usually, $\{f_j\}_{j=1}^K$ belong to the same parametric family (e.g., the normal distribution), and differ only for the specific values of the parameters (e.g., every component has a different mean/variance). But this might not always be the case.
+
+# Generate data from Mixture Models
+
+In order to understand how mixture models works, a useful exercise is to generate a synthetic dataset from a mixture of Gaussian distributions.
+
+Suppose, for example, that we want to generate 10000 samples from the following mixture density:
+\begin{equation}
+  f(y) = 0.3\ \mathcal{N}(y \mid -5, 2) + 0.5\ \mathcal{N}(y \mid 0,1) + 0.2\ \mathcal{N}(y \mid 5,3),
+  \tag{3}
+\end{equation}
+where $\mathcal{N}(\cdot \mid \mu, \sigma^2)$ is the probability density function (pdf) of a Gaussian distribution with mean $\mu$ and variance $\sigma^2$ evaluated in $\cdot$.  
+
+We can follow the hierarchical specification in (2) to construct the algorithm:
+\begin{itemize}
+  \item for $i = 1,\dots,n$
+  \begin{itemize}
+    \item sample the cluster allocation $c_i \sim \text{Categorical}(0.3, 0.5, 0.2)$
+    \item if $c_i = 1$, sample $y_i \sim \mathcal{N}(y \mid -5, 2)$, if $c_i = 2$, sample $y_i \sim \mathcal{N}(y \mid 0,            1)$, else sample $y_i \sim \mathcal{N}(y \mid 5,3)$
+  \end{itemize}
+\end{itemize}
+
+```{r}
+# Define weights, means and standard deviations of the mixture
+weights <- c(0.3, 0.5, 0.2)
+means <- c(-5.0, 0.0, 5.0)
+std_devs <- c(2.0, 1.0, 3.0) ^ 0.5
+```
+
+```{r}
+# Function that generates n i.i.d. samples from a mixture of Gaussian distributions
+gaussian_mixture_rng <- function(n, weights, means, std_devs) {
+  clus_allocs <- sample(length(weights), n, replace = TRUE, prob = weights)
+  data_rng <- rnorm(n, mean = means[clus_allocs], sd = std_devs[clus_allocs])
+  return(data_rng)
+}
+
+# Generate 10000 samples
+n <- 10000
+data_rng <- gaussian_mixture_rng(n, weights, means, std_devs)
+
+hist(data_rng, probability = TRUE, breaks = 50, col = rgb(0.5, 0.5, 0.5, alpha = 0.7), border = "white", main = "", xlab = "")
+```
+
+# Exercise 1
+
+1.1) Implement a function that evaluates the pdf of a finite mixture of Gaussian distribution over a set `x` of points
+
+1.2) Now, let $X_i \overset{ind}{\sim} \mathcal{N}(\mu_i, \sigma^2_i)$ for $i = 1, 2, 3$, with $\boldsymbol{\mu} = (-5, 0, 5)$ and $\boldsymbol{\sigma^2} = (2, 1, 3)$. Compute the law of the random variable $Z = \sum_{i = 1}^{3} w_i X_i$, with $\boldsymbol{w} = (0.3, 0.5, 0.2)$. Now, compare it with the pdf in (3): are they the same? Justify your answer.
+
+### Answers
+
+1.1)
+
+```{r, eval = TRUE}
+# Compute the probability density function of a mixture of Gaussian distributions
+gaussian_mixture_pdf <- function(x, weights, means, std_devs) {
+  # TODO
+  return(pdf = NA)
+}
+
+# Evaluate the pdf over a grid of points
+x <- seq(-10, 10, length.out = 1000)
+gaus_mix_pdf <- gaussian_mixture_pdf(x, weights, means, std_devs)
+
+# Plot
+hist(data_rng, probability = TRUE, breaks = 50, col = rgb(0.5, 0.5, 0.5, alpha = 0.7), border = "white", main = "", xlab = "")
+lines(x, gaus_mix_pdf, lwd = 3, col = 'blue')
+
+```
+
+1.2)
+
+# Galaxies in the Shapley Supercluster
+
+The `shapley` dataset (available in te `R` package `spatstat`) is a point pattern dataset recording the sky positions of 4215 galaxies in the Shapley Supercluster.
+
+This dataset comes from a survey by [Drinkwater et al (2004)](https://doi.org/10.1071/AS03057) of the Shapley Supercluster, one of the most massive concentrations of galaxies in the local universe. The data give the sky positions of 4215 galaxies observed using the FLAIR-II spectrograph on the UK Schmidt Telescope (UKST). They were kindly provided by Dr Michael Drinkwater through the Centre for Astrostatistics at Penn State University.
+
+Sky positions are given using the coordinates Right Ascension (degrees from 0 to 360) and Declination (degrees from -90 to 90).
+
+The point pattern has three mark variables:
+- **Mag**: Galaxy magnitude (a negative logarithmic measure of visible brightness);
+- **V**: Recession velocity (km/sec) inferred from redshift, with corrections applied.
+- **SigV**:Estimated standard error for V.
+
+We aim to cluster the galaxies in the Shapley supercluster according to their recession velocities (in $10^{-3}\ km / s$). The `shapley.csv` file attached stores such quantity in proper format.
+
+
+```{r, eval = TRUE}
+# Parse dataset
+data <- read.csv("shapley.csv")
+# Subsample - Take 1000 observations
+data <- data$V[sample(nrow(data), 1000)]
+# Plot the data
+hist(data, main = "", xlab = "V", breaks = 20)
+```
+
+# Exercise 2: Posterior computation with Mixture Models
+Consider the `shapley.csv` dataset we have introduced in the previous section:
+
+We can model the data using a mixture of $H = 7$ gaussian distributions.
+
+\begin{equation*}
+    y_1, \ldots, y_n \mid \mathbf{w}, \mathbf{\mu}, \mathbf{\sigma}^2 \overset{iid}{\sim} \sum_{h=1}^{7} w_j \mathcal{N}(\mu_j, \sigma^2_j)
+\end{equation*}
+
+The vector $\mathbf{w}$ represent the probability that a subject belongs to one of the 7 groups. A natural marginal prior choice is therefore a Dirichlet($\mathbf{\alpha}$) distribution. With no prior information available, we can assume that $\mathbf{\alpha} = (1,\dots,1)$.
+
+2.1) Using the likelihood in (2), derive the full conditional for $\mathbf{w}$.
+
+
+
+2.2) What is a simple conjugate prior for each $(\mu_j, \sigma^2_j)$? Derive the full conditional for these parameters.
+
+2.3) Complete the model by specifying a prior such that the expected value of each $\mu_j$ is (close to) the empirical/sample mean. As long as the variance of each $\sigma^2_j$ is concerned, set a prior such that the average cluster width is (close to) $(10\ \pm\ \sqrt{2.5})$ $10^{-3} km / s$. By **cluster width** we mean the quantity $\omega$ that expresses the lenght of the interval containing at least $95\%$ of the data in the cluster). Choose the remaining parameters "wisely".  
+*(Hint: In case of Gaussian data, the interval $[\mu -2\sigma, \mu + 2\sigma]$ contains almost $95\%$ of the data. You may use a plug-in estimate if it simplifies the prior elicitation)*
+
+2.4) Describe and implement a Gibbs sampler algorithm that alternates between updating the $c_i$'s, the weights $\mathbf{w}$ and the "unique values" $(\mu_1, \sigma_1^2), \dots, (\mu_7, \sigma_7^2)$
+
+### Answers
+
+2.1)
+
+2.2)
+
+2.3)
+
+
+```{r}
+# We look at empirical mean and standard deviation
+muhat <- NA
+varhat <- NA
+sdhat <- NA
+cat(sprintf("SUMMARY:\n Mean: %f;\n Variance: %f;\n Standard Deviation: %f.\n", muhat, varhat, sdhat))
+
+# TODO -> PRIOR ELICITATION + COMMENTS
+```
+
+2.4) 
+
+```{r}
+# Helper function
+r_dirichlet <- function(alpha) {
+  y <- rgamma(length(alpha), shape = alpha, rate = 1)
+  return(y / sum(y))
+}
+
+run_one_gibbs <- function(data, cluster_allocs, uniq_vals, weights) {
+  # Set n_clus
+  n_clus <- length(weights)
+  # Update Unique Values
+  for (h in seq_len(n_clus)) {
+    clusdata <- data[cluster_allocs == h]
+    if (length(clusdata) == 0) {
+      uniq_vals[h, ] <- sample_uniq_vals_prior()
+    } else {
+      uniq_vals[h, ] <- sample_uniq_vals_fullcond(clusdata)
+    }
+  }
+  # Update cluster allocs
+  cluster_allocs <- update_cluster_allocs(data, weights, uniq_vals)
+  # Update weights
+  weights <- update_weights(cluster_allocs, n_clus)
+  
+  return(list(cluster_allocs = cluster_allocs, uniq_vals = uniq_vals, weights = weights))
+}
+
+run_mcmc <- function(data, niter = 7500, nburn = 2500, thin = 5) {
+  # Set number of components
+  H <- 7
+  # Initialize chain
+  cluster_allocs <- sample(H, length(data), replace = TRUE, prob = rep(1/H, H))
+  weights <- rep(1/H, H)
+  init_vars # <- initialize the variance sampling from the prior
+  init_means # <- initialize the mean sampling from the prior
+  uniq_vals <- cbind(init_means, init_vars)
+  # Prepare output
+  allocs_out <- list()
+  uniq_vals_out <- list()
+  weights_out <- list()
+  # Sampler for loop
+  pb <- txtProgressBar(min = 1, max = niter, style = 3)
+  for (i in seq_len(niter)) {
+    setTxtProgressBar(pb, i)
+    # Sample
+    res <- run_one_gibbs(data, cluster_allocs, uniq_vals, weights)
+    cluster_allocs <- res$cluster_allocs
+    uniq_vals <- res$uniq_vals
+    weights <- res$weights
+    # Save state
+    if (i > nburn && i %% thin == 0) {
+      allocs_out[[length(allocs_out) + 1]] <- cluster_allocs
+      uniq_vals_out[[length(uniq_vals_out) + 1]] <- uniq_vals
+      weights_out[[length(weights_out) + 1]] <- weights
+    }
+  }
+  close(pb)
+  # Return chain
+  return(list(allocs_out = allocs_out, uniq_vals_out = uniq_vals_out, weights_out = weights_out))
+}
+```
+
+Each function in the following chunck implements the update of a portion of the state
+
+```{r}
+# Update the cluster allocation variables
+update_cluster_allocs <- function(data, weights, uniq_vals) {
+  # Hint: the update of each c_i can be done independently of
+  # the other c_j's (j != i) 
+  
+  # Hint2: you might need to evaluate the likelihood of each observation
+  # with parameters in each cluster. The following snippet returns a
+  # [n, K] matrix with [i, j]-entry equal to log_prob(y_i | \mu_j, \sigma^2_j)
+  # logprobs <- sapply(seq_len(nrow(uniq_vals)), function(j) dnorm(data, mean = uniq_vals[j, 1], sd = sqrt(uniq_vals[j,                            2]), log = TRUE))
+  
+  # Hint3: you may want to use the function sweep() to speed up computations (see help("sweep"))
+  
+  # TODO: Compute probs
+  
+  # Return
+  # return(apply(probs, 1, function(p) sample(length(p), 1, prob = p)))
+}
+
+# Update the weights of the mixture
+update_weights <- function(cluster_allocs, n_clus) {
+  # Hint: you might need to count how many observations are in each cluster
+  # you can use the following code
+  # n_by_clus <- colSums(outer(cluster_allocs, seq_len(n_clus), "=="))    
+
+  # TODO: Compute post_params
+  
+  # Return
+  # return(weights_updated)
+}
+
+# Sample from the prior distribution of the cluster-specific parameters
+sample_uniq_vals_prior <- function() {
+  # var <- sample variance from prior
+  # mu <- sample mean from prior
+  c(mu, var)
+}
+
+# Sample from the full conditional of the cluster-specific parameters
+sample_uniq_vals_fullcond <- function(clusdata) {
+  # TODO: Compute posterior hyperparameters and sample
+  
+  # var <- sample the variance
+  # mu <- sample the mean
+  # Return
+  c(mu, var)
+}
+```
+
+### Run the Sampler!
+
+```{r, eval = TRUE}
+mcmc_res <- run_mcmc(data, niter = 7500, nburn = 2500)
+
+allocs_out <- mcmc_res$allocs_out
+uniq_vals_out <- mcmc_res$uniq_vals_out
+weights_out <- mcmc_res$weights_out
+
+```
+
+Let's see an example of clustering by plotting the last values of `allocs_out` against the data histogram
+
+```{r, eval = TRUE}
+# Plot
+cols = rainbow(7)
+hist(data, probability = TRUE, breaks = 50, col = rgb(0.5, 0.5, 0.5, alpha = 0.1), border = "black", main = "", xlab = "")
+last_allocs <- allocs_out[[length(allocs_out)]]
+for (h in seq_len(length(weights_out[[1]]))) {
+  currd <- data[last_allocs == h]
+  if (length(currd) > 0) {
+    points(currd, rep(0.001 * h, length(currd)), pch = 16, col = cols[h])
+  }
+}
+```
+
+# Exercise 3: Posterior inference with Mixture Models
+
+Mixture models are subject to the so called "label switching", which causes non-identifiability for all the parameters.
+
+Label switching means that permuting the "labels" {1, 2, ..., K} of the cluster yields the same exact likelihood.
+Hence, it does not make sense to talk about "first", "second" and "third" cluster.
+Moreover, also interpretation of the cluster parameters is tricky: we cannot say that, given the total number of iterations S,
+
+$$
+    \hat{\mu}_h = \frac{1}{S} \sum_{s=1}^S \mu^{(s)}_h
+$$
+
+is an estimate of parameter $\mu_h$, the mean of the $h$-th cluster. Also, it does not make sense to take averages of the cluster allocation labels.
+
+There are several ways to solve this non-identifiability issue, we will focus here on a decision-theoretic approach.
+
+
+3.1) Implement a function that finds the clustering, among the ones visited in the MCMC chain, that minimizes Binder's loss function. The Binder loss is defined, for each post-burnin sample $s$, as
+
+$$
+    \text{Loss}^{(s)} = \sum_{i=1}^n \sum_{j=1}^n (\mathbb I [c^{(s)}_i = c^{(s)}_j] - p_{ij})^2
+$$
+where $p_{ij}$ is the posterior probability that observations $i$ and $j$ belong to the same cluster and $c_i^{(s)}$ the cluster label for unit $i$ in iteration $s$.
+
+Note that $p_{ij}$ can be easily estimated from the MCMC chains!
+
+3.2) Given the estimated clustering $\mathbf{c}^*$, estimate the parameters in each cluster. Let $c^*_h$ denote the index-set of the $h$--th cluster (e.g., $c^*_1 = \{1, 3, 10\}$, $c^*_2 = \{0, 2, 4, 5, 6\}$ ...). Then
+$$
+    \hat \mu_h = \frac{1}{S} \sum_{s=1}^S \frac{1}{\# c^*_h} \sum_{i \in c^*_h} \mu^{(s)}_{c_{i}^{(s)}}
+$$
+where $\mu^{(s)}_\ell$ is the mean of the $\ell$--th cluster at the $s$--th MCMC iteration.
+
+Similarly for the variance $\hat \sigma_h^2$.
+
+3.3) Comment on the posterior inference obtained
+
+### Answers
+
+3.1)
+```{r}
+get_psm <- function(clus_alloc_chain) {
+  # Returns the posterior similarity matrix, i.e.
+  # out[i, j] = P(c_i == c_j) for each pair of observations
+  
+  # Hint: the posterior similarity matrix is symmetrical
+  
+  c_chain <- do.call(rbind, clus_alloc_chain)
+  n_obs <- ncol(c_chain)
+  out <- matrix(0, nrow = n_obs, ncol = n_obs)
+
+  # TODO: Fill out
+        
+  return(psm)
+}
+
+minbinder_sample <- function(clus_alloc_chain, psm) {
+  losses <- rep(0, length(clus_alloc_chain))
+  c_chain <- do.call(rbind, clus_alloc_chain)
+  n_obs <- ncol(c_chain)
+
+  # TODO: compute losses
+  # Hint: the function outer() may be helpful
+
+  best_iter <- which.min(losses)
+  return(clus_alloc_chain[[best_iter]])
+}
+```
+
+```{r, eval = TRUE}
+psm <- get_psm(allocs_out)
+best_clus <- minbinder_sample(allocs_out, psm)
+```
+
+```{r, eval = TRUE}
+hist(data, probability = TRUE, breaks = 50, col = rgb(0.5, 0.5, 0.5, alpha = 0.3), border = "black", main = "", xlab = "")
+unique_best <- unique(best_clus)
+cols = rainbow(length(unique_best))
+for (idx in seq_along(unique_best)) {
+  h <- unique_best[idx]
+  currd <- data[best_clus == h]
+  if (length(currd) > 0) {
+    points(currd, rep(0.001 * idx, length(currd)), pch = 16, col = cols[idx])
+  }
+}
+```
+
+3.2)
+
+```{r}
+unique_vals_given_clus <- function(unique_vals_chain, clus_alloc_chain, best_clus) {
+  c_allocs <- do.call(rbind, clus_alloc_chain)
+  uniq_vals <- simplify2array(unique_vals_chain)
+  means <- uniq_vals[, , 1]
+  variances <- uniq_vals[, , 2]
+  out <- list()
+  
+  # TODO: fill out
+  unique_best <- unique(best_clus)
+  for (h in seq_along(unique_best)) {
+    clus_val <- unique_best[h]
+    data_idx <- which(best_clus == clus_val)
+    uniq_vals_idx <- c_allocs[, data_idx, drop = FALSE] # -> Matrix [n_iter X n_data_in_clus]
+    means_by_iter <- matrix(0, nrow = nrow(c_allocs), ncol = length(data_idx))
+    vars_by_iter <- matrix(0, nrow = nrow(c_allocs), ncol = length(data_idx))
+    for (i in seq_len(nrow(c_allocs))) {
+      means_by_iter[i, ] <- NA
+      vars_by_iter[i, ] <- NA
+    }
+
+    avg_mean_by_iter <- NA
+    avg_var_by_iter <- NA
+    
+    muhat <- NA
+    varhat <- NA
+    
+    out[[length(out) + 1]] <- c(muhat, varhat)
+  }
+  
+  return(out)
+}
+```
+
+```{r, eval = TRUE}
+clus_vals <- unique_vals_given_clus(uniq_vals_out, allocs_out, best_clus)
+clus_vals
+
+weights <- colSums(outer(best_clus, unique(best_clus), "==")) / length(data)
+weights
+```
+
+```{r, eval = TRUE}
+hist(data, probability = TRUE, breaks = 30, col = rgb(0.5, 0.5, 0.5, alpha = 0.1), border = "white", main = "", xlab = "")
+xx <- seq(min(data), max(data), length.out = 1000)
+out_dens <- rep(0, length(xx))
+unique_best <- unique(best_clus)
+for (i in seq_along(unique_best)) {
+  comp_dens <- dnorm(xx, mean = clus_vals[[i]]["mu"], sd = sqrt(clus_vals[[i]]["sigsq"]))
+  out_dens <- out_dens + weights[i] * comp_dens
+  polygon(c(xx, rev(xx)), c(rep(0, length(xx)), rev(weights[i] * comp_dens)), col = cols[i], border = NA)
+}
+
+lines(xx, out_dens, col = "black", lwd = 3)
+```
+
+3.3)
