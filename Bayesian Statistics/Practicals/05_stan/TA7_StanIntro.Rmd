@@ -1,0 +1,656 @@
+---
+title: "TA7: An Introduction to Stan"
+date: "30/10/2026"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE}
+# You can check out the useful Stan forum if you have any Stan-related inquiries (https://discourse.mc-stan.org/)
+# For doubts about how to install Stan, see https://mc-stan.org/install/
+
+# Install the cmdstanr R package
+# Run this only once:
+# install.packages(
+#   "cmdstanr",
+#   repos = c("https://stan-dev.r-universe.dev",
+#             getOption("repos"))
+#)
+
+# Load the package
+library(cmdstanr)
+
+# Check that the C++ toolchain is ready
+# On Windows, this checks for a suitable Rtools setup.
+# check_cmdstan_toolchain()
+
+# Install CmdStan (only needed once)
+# install_cmdstan()
+
+# Verify the installation
+# cmdstan_path()
+# cmdstan_version()
+
+
+# Create folder to store .stan files
+if (!dir.exists("./stan")) {
+  dir.create("./stan")
+}
+
+library(posterior)   
+library(bayesplot)   
+library(ggplot2)     
+
+```
+
+# Stan is a probabilistic programming language
+
+It implements state of the art HMC algorithms.
+
+Specifically, its default is the No-U-Turn Sampler by [Hoffman and Gelman (2014)](https://www.jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf) with some further improvements.
+
+Given a target probability density function, the sampling is divided in
+
+1.  **Adaptation**: the algorithm learns the "optimal" stepsize $\varepsilon$, integration time $L$ and mass matrix $M$ of the momentum conditional distribution. The idea is to optimize these parameters so that the acceptance rate of the algorithm is 80%. This is done by first reaching the typical set, then learning $M$ and finally $L$ and $\varepsilon$.
+
+2.  **Burnin**: A number of iterations that will be discarded
+
+3.  Proper **sampling**
+
+By default 1000 iterations of adaptation, 0 of burnin and 1000 of sampling (no thinning!)
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Define the Stan model string
+# data section -> input, what is given to the model
+# parameters section -> the unknown quantities that will be sampled by the MCMC
+# model section -> specify the actual model you are using
+
+normal_code <- "
+    data {
+        int<lower=0> dim;
+        matrix[dim, dim] cov_chol;
+    }
+    
+    parameters {
+        vector[dim] x;
+    }
+    
+    model {
+        vector[dim] mu = rep_vector(0, dim);
+        x ~ multi_normal_cholesky(mu, cov_chol);
+    }
+"
+
+# Set Data
+d <- 2
+
+mat_diff <- abs(outer(0:(d - 1), 0:(d - 1), "-"))
+sigma <- 0.99 ^ mat_diff # highly correlated
+
+# Get the Cholesky factor
+sigma_chol <- t(chol(sigma))
+
+# Write model to file
+stan_file <- "./stan/multi_normal.stan"
+writeLines(normal_code, stan_file)
+
+# Compile stan model
+stan_model <- cmdstan_model(stan_file)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Prepare data list for Stan
+normal_data <- list(
+  dim = 2,
+  cov_chol = sigma_chol
+)
+
+# Run the sampler
+stan_fit <- stan_model$sample(
+  data = normal_data, 
+  chains = 4, 
+  parallel_chains = 4, 
+  iter_warmup = 1000, 
+  iter_sampling = 5000, 
+  refresh = 1000
+)
+
+# Get a summary table of the parameters 
+stan_fit$summary()
+
+# Extract draws as a data frame for custom plotting or analysis
+draws_df <- stan_fit$draws(format = "df")
+```
+
+```{r}
+mcmc_trace(draws_df, facet_args = list(ncol = 1), pars = c("x[1]", "x[2]")) # Stacked vertically, for example
+```
+
+Let's see how `stan` has explored the level set of the target distribution:
+
+```{r}
+# Make sure you have the mvtnorm package installed for multivariate normal density:
+# install.packages("mvtnorm")
+library(mvtnorm)
+
+x_vals <- seq(-2.5, 2.5, length.out = 200)
+grid_df <- expand.grid(x1 = x_vals, x2 = x_vals)
+
+# Evaluate the multivariate normal probability density function
+z_vals <- dmvnorm(grid_df, mean = c(0, 0), sigma = sigma)
+z_matrix <- matrix(z_vals, nrow = length(x_vals), ncol = length(x_vals))
+
+N <- 100
+# Extract draws as a 3D array: iterations X chains X variables
+draws_arr <- stan_fit$draws(variables = "x", format = "array")
+
+
+x_samples <- draws_arr[1:N,1,1:2]
+x_points <- x_samples[, , 1]
+y_points <- x_samples[, , 2]
+contour(x_vals, x_vals, z_matrix, 
+        xlab = "x[1]", ylab = "x[2]", 
+        main = "Target Distribution & MCMC Samples")
+points(x_points, y_points, col = "red", pch = 16, cex = 0.8)
+```
+
+### Compute running average of $\sum x_i$ when $d=10$
+
+```{r message=FALSE, warning=FALSE}
+d <- 10
+mat_diff <- abs(outer(0:(d - 1), 0:(d - 1), "-"))
+sigma <- 0.8 ^ mat_diff
+sigma_chol <- t(chol(sigma))
+
+normal_data <- list(
+  dim = d,
+  cov_chol = sigma_chol
+)
+
+stan_fit <- stan_model$sample(
+  data = normal_data, 
+  chains = 4, 
+  parallel_chains = 4, 
+  iter_warmup = 1000, 
+  iter_sampling = 5000,
+  refresh = 1000,
+  show_messages = F
+)
+```
+
+```{r}
+# Extract draws as a 3D array: [iterations, chains, variables]
+draws_arr <- stan_fit$draws(variables = "x", format = "array")
+
+sum_x <- apply(draws_arr, c(1, 2), sum) # Results in a matrix of [iterations X chains]
+
+n_iter <- nrow(sum_x)
+running_sum <- apply(sum_x, 2, cumsum)
+running_avg <- running_sum / (1:n_iter) 
+
+plot(1:n_iter, running_avg[, 1], type = "l", col = 1, 
+     ylim = range(running_avg),
+     xlab = "Iteration", ylab = "Running Average", 
+     main = "Running Average Convergence")
+
+# Add lines for the remaining chains
+for (i in 2:ncol(running_avg)) {
+  lines(1:n_iter, running_avg[, i], col = i)
+}
+
+# Add a legend
+legend("bottomright", 
+       legend = paste("Chain:", 1:ncol(running_avg)), 
+       col = 1:ncol(running_avg), 
+       lty = 1, 
+       cex = 1.2)
+```
+
+## Multiple chains are useful for assessing convergence - $\hat{R}$ and ESS
+
+$\hat{R}$ is a diagnostic of convergence: Implementation in Stan follows Vehtari et al. (2021). Check it out for further details.
+
+In the equations below, $N$ is the number of draws per chain, $M$ is the number of chains, $S=MN$ is the total number of draws from all chains, $\theta^{(nm)}$ is $n$-th draw of $m$-th chain, $\bar{\theta}^{(\bullet m)}$ is the average of draws from $m$-th chain, and $\bar{\theta}^{(\bullet\bullet)}$ is average of all draws.
+
+1.  For each scalar quantity of interest $\theta$, first compute $B$ and $W$, the between- and within-chain variances: \begin{align*}
+    B &= \frac{N}{M-1} \sum_{m=1}^{M} \left( \bar{\theta}^{(\bullet m)} - \bar{\theta}^{(\bullet\bullet)} \right)^2 \\
+    W &= \frac{1}{M} \sum_{m=1}^{M} s^{2}_{m} \quad\text{where}\quad s^{2}_{m} = \frac{1}{N-1}\sum_{n=1}^{N} \left( \theta^{(nm)} - \bar{\theta}^{(\bullet m)} \right)^2
+    \end{align*}
+
+2.  Estimate $\text{var}(\theta \mid y)$, the marginal posterior variance of the estimand, by a weighted average of $W$ and $B$: $$
+    \hat{\text{var}}^{+}\left(\theta \mid y \right) = \frac{N-1}{N}W + \frac{1}{N}B
+    $$
+
+3.  Compute $\hat{R}$ as: $$
+    \hat{R} = \sqrt{\frac{\hat{\text{var}}^{+}\left(\theta \mid y \right)}{W}}
+    $$
+
+In practice, we monitor convergence of the iterative simulations to the target distribution by estimating the factor by which the scale of the current distribution for $\theta$ might be reduced if the simulations were continued in the limit $N \to \infty$. In fact, the above estimator, for an ergodic process, declines to $1$ as $N \to \infty$. Hence, a value as close as possible to $1$ can indicate that the chain converged. **Rule of thumb**: if $\hat{R} > 1.1$, the chain did not converge!
+
+> *Indeed the actual implementation of* $\hat{R}$ in Stan does not use actual draws $\theta^{(nm)}$'s, but either their rank normalization or the rank normalization of the folded draws, i.e. the absolute deviation of $\theta^{(nm)}$ from the median. See [Vehtari et al. (2021)](https://doi.org/10.1214/20-BA1221) for all the details.
+
+The **effective sample size** (ESS) is an estimate of the sample size required to achieve the same level of precision if that sample was a simple random sample. Still, refer to Section 3.2 in [Vehtari et al. (2021)](https://en.wikipedia.org/wiki/Brain%E2%80%93body_mass_ratio) for the estimation of ESS with multiple chains. We want it to be as close as possible to the actual draws of our chain. Notice that with Stan, if we are close to normality, we can reach values that are higher than the sample size in case of parameters whose posterior is close to a Gaussian distribution and low dependence on other parameters. Long story short, this happens due to the fact that HMC can exhibt autocorrelation plots with negative autocorrelations on odd lags. In the paper, you can find more details about the computation of the so-called *bulk-ESS* and *tail-ESS*, both available in Stan.
+
+```{r}
+stan_fit$summary()
+
+draws_x <- stan_fit$draws("x")
+posterior::ess_bulk(draws_x)
+posterior::ess_tail(draws_x)
+posterior::rhat(draws_x)
+```
+
+# Using stan to sample from Bayesian models
+
+Just as before, but now the covariance is random, while x is observed
+
+Model
+
+$$
+\begin{aligned}
+x_1, \ldots, x_N \mid \Sigma
+&\sim \mathcal{N}(0, \Sigma) \\
+\Sigma &\sim \mathcal{IW}(\nu_0, \psi_0)
+\end{aligned}
+$$
+
+```{r message=FALSE, warning=FALSE}
+normal_unk_cov_code <- "
+    data {
+        int<lower=0> dim;
+        int<lower=0> N;
+        array[N] vector[dim] x;
+        
+        real<lower=0> nu0;
+        cov_matrix[dim] psi0;
+    }
+    
+    parameters {
+        cov_matrix[dim] sigma;
+    }
+    
+    transformed parameters {
+        matrix[dim, dim] sigma_chol = cholesky_decompose(sigma);
+    }
+    
+    model {
+        vector[dim] mu = rep_vector(0, dim);
+        sigma ~ inv_wishart(nu0, psi0);
+        x ~ multi_normal_cholesky(mu, sigma_chol);
+    }
+"
+
+# Generate data
+d <- 10
+N <- 500
+mat_diff <- abs(outer(0:(d - 1), 0:(d - 1), "-"))
+sigma <- 0.8 ^ mat_diff
+sigma_chol <- t(chol(sigma))
+x <- matrix(rnorm(N * d), nrow = N) %*% t(sigma_chol)
+
+# Write model to file
+stan_file <- "./stan/multi_normal_unk_cov.stan"
+writeLines(normal_unk_cov_code, stan_file)
+
+# Compile stan model
+stan_model <- cmdstan_model(stan_file, quiet = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+normal_data <- list(
+    dim = d,
+    N = nrow(x),
+    nu0 = 15,  
+    x = x,
+    psi0 = (15 - d - 1) * diag(d) # centered at diag(d)
+)
+
+stan_fit <- stan_model$sample(data = normal_data, chains = 4, parallel_chains = 4, 
+                              iter_warmup = 1000, iter_sampling = 5000, show_messages = F, refresh = 1000)
+
+```
+
+```{r}
+stan_fit
+
+draws_arr <- stan_fit$draws(variables = "sigma", format = "array")
+par(mfrow = c(2,2))
+for (i in 1:4) {
+  plot(
+    draws_arr[, i, 1],
+    type = "l",
+    col = "navyblue",
+    lwd = 0.8,
+    xlab = "Iteration",
+    ylab = bquote(sigma[.(i)*",1"]),
+    main = bquote("Trace plot: " ~ sigma[.(i)*",1"]),
+    cex.main = 0.95,
+    cex.lab = 0.9
+  )
+}
+
+par(mfrow = c(1,1))
+
+```
+
+## Going hierarchical
+
+We consider 341 frogs from 12 genuses. For each frog we measure a function of the Body Weight (BoW) and the Brain Weight (BrW):
+
+$$
+    y_j = \log \left(\frac{BrW/BoW}{1 - BrW / BoW} \right) = \text{logit}(BrW/BoW), \quad j=1, \ldots, 341
+$$
+
+We want to study differences across the genuses
+
+Denote with $g(j) \in \{1, \ldots, 12\}$ the genus of individual $j$. A simple hierarchical model is
+
+$$
+\begin{aligned}
+y_j \mid \theta_1, \ldots, \theta_{12}, \sigma
+&\sim \mathcal{N}(\theta_{g(j)}, \sigma^2) \\
+\theta_1, \ldots, \theta_{12} \mid \mu, \tau
+&\sim \mathcal{N}(\mu, \tau^2) \\
+\mu \mid \tau
+&\sim \mathcal{N}(\mu_0, s_0^2) \\
+\tau &\sim \operatorname{Uniform}(0, \tau_{\max}) \\
+\sigma &\sim \operatorname{Uniform}(0, \sigma_{\max})
+\end{aligned}
+$$
+
+## How to set the prior?
+
+The ratio between bodyweight and brainweight is well studied and also has a [Wikipedia page](https://en.wikipedia.org/wiki/Brain%E2%80%93body_mass_ratio). Since we are not biologist, we use this page to elicit our prior.
+
+```{r}
+invlogit <- function(x) {
+    return(exp(x) / (1 + exp(x)))
+}
+
+logit <- function(x) {
+    return(log(x) - log(1 - x))
+}
+
+# Average brain to body ratio for frogs is 1/172
+mu0 <- logit(1 / 172)
+cat(sprintf("mu0: %s\n", mu0))
+
+# P(a <= X <= b), with X ~ N(mu,s)
+p_in_interval <- function(mu, s, a, b) {
+    return(pnorm(b, mean = mu, sd = s) - pnorm(a, mean = mu, sd = s))
+}
+
+# Compute s0 s.t. P(a <= X <= b) >= 0.9
+loss_fn <- function(x) {
+    return((p_in_interval(mu0, x, logit(1.0 / 550), logit(1.0/125)) - 0.9)^2)
+}
+s0 <- optim(10, loss_fn, method = "BFGS")$par
+cat(sprintf("s0: %s\n", s0))
+
+# Raughly estimate the standard deviations of the ratios to estimate taumax
+ratios <- 1.0 / c(12.0, 40.0, 40, 100, 125, 172, 550, 560, 600, 2496, 2798)
+logit_ratios <- logit(ratios)
+taumax <- 5 * sd(logit_ratios) * sqrt((length(logit_ratios) - 1) / length(logit_ratios))
+cat(sprintf("taumax: %s\n", taumax))
+
+# No idea on sigmamax: set to 100
+sigmamax <- 100.0
+cat(sprintf("sigmamax: %s\n", sigmamax))
+```
+
+## Let's import the data
+
+```{r}
+frog_data <- read.csv("frog_data.csv")
+head(frog_data)
+```
+
+```{r}
+frog_y <- logit(frog_data$BrW / frog_data$BoW)
+unique_genera <- unique(frog_data$Genus)
+ind2genus <- match(frog_data$Genus, unique_genera)
+
+ggplot(data.frame(y = frog_y, genus = frog_data$Genus), aes(x = y, color = genus)) +
+  geom_density() +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+```{r message=FALSE, warning=FALSE}
+frogs_code <- "
+data {
+    int<lower=0> J;
+    int<lower=0> N;
+    array[N] real y;
+    array[N] int<lower=1, upper=J> g;
+
+    real<lower=0> s0;
+    real<lower=0> taumax;
+    real mu0;
+}
+
+parameters {
+    real mu;
+    real<lower=0> tau;
+    
+    array[J] real theta;
+    real<lower=0> sigma;
+}
+
+
+model {
+    mu ~ normal(mu0, s0);
+    tau ~ uniform(0, taumax);
+    sigma ~ uniform(0, 100);
+    theta ~ normal(mu, tau);
+    for (i in 1:N) {
+        y ~ normal(theta[g[i]], sigma);
+    }
+}
+"
+
+stan_file <- "./stan/frogs_code.stan"
+writeLines(frogs_code, stan_file)
+
+stan_model <- cmdstan_model(stan_file)
+```
+
+```{r}
+# Prepare input list
+frogs_data <- list(
+    J = 12,
+    N = length(frog_y),
+    y = frog_y,
+    g = ind2genus,
+    s0 = s0,
+    taumax = taumax,
+    mu0 = mu0
+)
+
+# Sample
+stan_fit <- stan_model$sample(data = frogs_data, show_messages = F, refresh = 1000)
+```
+
+```{r}
+draws_arr <- stan_fit$draws(format = "array")
+mcmc_trace(draws_arr, facet_args = list(ncol = 5))
+```
+
+```{r}
+num_div <- sum(stan_fit$sampler_diagnostics()[, , "divergent__"])
+cat(sprintf("We have %d diverging iterations!\n", num_div))
+```
+
+"When the exact trajectories lie on energy level sets with regions of high curvature, the numerical trajectories generated by symplectic integrators can diverge, rapidly flying off towards the boundaries of phase space" (Betancourt 2018).
+
+```{r}
+split_diverging <- function(stan_fit, var_name) {
+    div_matrix <- stan_fit$sampler_diagnostics(format = "array")[, , "divergent__"] == 1
+    vals <- stan_fit$draws(variables = var_name, format = "array")
+    div_vals <- vals[div_matrix]
+    non_div_vals <- vals[!div_matrix]
+    return(list(div_vals, non_div_vals))
+}
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+var_names <- c("mu", "sigma", "tau")
+
+for (i in 1:(length(var_names) - 1)) {
+    v1 <- var_names[i]
+    res1 <- split_diverging(stan_fit, v1)
+    div1 <- res1[[1]]
+    nondiv1 <- res1[[2]]
+    
+    for (j in (i + 1):length(var_names)) {
+        v2 <- var_names[j]
+        res2 <- split_diverging(stan_fit, v2)
+        div2 <- res2[[1]]
+        nondiv2 <- res2[[2]]
+        
+        log_x <- v1 %in% c("sigma", "tau")
+        log_y <- v2 %in% c("sigma", "tau")
+        log_arg <- paste0(ifelse(log_x, "x", ""), ifelse(log_y, "y", ""))
+        
+        plot(nondiv1, nondiv2, col = adjustcolor("steelblue", alpha.f = 0.1), pch = 16,
+             log = log_arg, xlab = v1, ylab = v2, main = paste(v1, "vs", v2))
+        points(div1, div2, col = "forestgreen", pch = 16, cex = 1.2)
+    }
+}
+
+par(mfrow = c(1, 1))
+```
+
+```{r}
+frogs_code_reparam <- "
+data {
+    int<lower=0> J;
+    int<lower=0> N;
+    array[N] real y;
+    array[N] int<lower=1, upper=J> g;
+    
+    real<lower=0> s0;
+    real<lower=0> taumax;
+    real mu0;
+}
+
+parameters {
+    real mu;
+    real<lower=0> tau;
+    
+    vector[J] theta_raw;
+    real<lower=0> sigma;
+}
+
+transformed parameters {
+    vector[J] theta;
+    theta = mu + theta_raw * tau;
+}
+
+
+model {
+    mu ~ normal(mu0, s0);
+    tau ~ uniform(0, taumax);
+    sigma ~ uniform(0, 100);
+    theta_raw ~ normal(0, 1);
+    for (i in 1:N) {
+        y ~ normal(theta[g[i]], sigma);
+    }
+}
+"
+
+stan_file <- "./stan/frogs_code_reparam.stan"
+writeLines(frogs_code_reparam, stan_file)
+stan_model <- cmdstan_model(stan_file)
+```
+
+```{r message=FALSE, warning=FALSE}
+stan_fit <- stan_model$sample(data = frogs_data, refresh = 1000)
+sum(stan_fit$sampler_diagnostics()[, , "divergent__"])
+
+draws_arr <- stan_fit$draws(format = "array")
+mcmc_trace(draws_arr, facet_args = list(ncol = 5))
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+var_names <- c("mu", "sigma", "tau")
+
+for (i in 1:(length(var_names) - 1)) {
+    v1 <- var_names[i]
+    res1 <- split_diverging(stan_fit, v1)
+    div1 <- res1[[1]]
+    nondiv1 <- res1[[2]]
+    
+    for (j in (i + 1):length(var_names)) {
+        v2 <- var_names[j]
+        res2 <- split_diverging(stan_fit, v2)
+        div2 <- res2[[1]]
+        nondiv2 <- res2[[2]]
+        
+        log_x <- v1 %in% c("sigma", "tau")
+        log_y <- v2 %in% c("sigma", "tau")
+        log_arg <- paste0(ifelse(log_x, "x", ""), ifelse(log_y, "y", ""))
+        
+        plot(nondiv1, nondiv2, col = adjustcolor("steelblue", alpha.f = 0.4), pch = 16,
+             log = log_arg, xlab = v1, ylab = v2, main = paste(v1, "vs", v2))
+        points(div1, div2, col = "forestgreen", pch = 16, cex = 1.2)
+    }
+}
+
+par(mfrow = c(1, 1))
+```
+
+```{r}
+mcmc_dens_overlay(stan_fit$draws(variables = "theta"))
+```
+
+# Other startegies to fix diverging iterations
+
+Increase `adapt_delta` (target acceptance rate) from the default value (0.8) to (0.9, 0.95, 0.99, 0.999)
+
+Decrease the initial `step_size` from 1 (default value)
+
+Increse `max_treedepth` (something very specific of NUTS) from 10
+
+```{r, eval = FALSE}
+stan_fit <- stan_model$sample(
+    data = frogs_data,
+    adapt_delta = 0.99,
+    step_size = 0.5,
+    max_treedepth = 15
+)
+sum(stan_fit$sampler_diagnostics()[, , "divergent__"])
+```
+
+```{r, eval = FALSE}
+par(mfrow = c(1, 3))
+
+var_names <- c("mu", "sigma", "tau")
+
+for (i in 1:(length(var_names) - 1)) {
+    v1 <- var_names[i]
+    res1 <- split_diverging(stan_fit, v1)
+    div1 <- res1[[1]]
+    nondiv1 <- res1[[2]]
+    
+    for (j in (i + 1):length(var_names)) {
+        v2 <- var_names[j]
+        res2 <- split_diverging(stan_fit, v2)
+        div2 <- res2[[1]]
+        nondiv2 <- res2[[2]]
+        
+        log_x <- v1 %in% c("sigma", "tau")
+        log_y <- v2 %in% c("sigma", "tau")
+        log_arg <- paste0(ifelse(log_x, "x", ""), ifelse(log_y, "y", ""))
+        
+        plot(nondiv1, nondiv2, col = adjustcolor("steelblue", alpha.f = 0.4), pch = 16,
+             log = log_arg, xlab = v1, ylab = v2, main = paste(v1, "vs", v2))
+        points(div1, div2, col = "forestgreen", pch = 16, cex = 1.2)
+    }
+}
+
+par(mfrow = c(1, 1))
+```
