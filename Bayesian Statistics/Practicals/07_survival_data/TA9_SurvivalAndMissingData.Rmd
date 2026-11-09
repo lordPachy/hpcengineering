@@ -1,0 +1,888 @@
+---
+title: "TA9: Survival and Missing Data"
+output: html_document
+date: "09/11/2026"
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+# The Cancer and Leukemia Group B dataset
+
+Study CALGB 8541 (Example 11.1 from RLO)
+
+The Cancer and Leukemia Group B (CALGB) conducted a randomized clinical trial to compare the benefits of three dose regimen intensities (high, moderate, and low) of a three-drug combination to treat non-metastatic breast cancer.
+The study, CALGB 8541, randomized over 1,500 women to one of the three treatment regimens.
+
+The data set contains several variables: `seqno, study, arm, er, pgr, npn, tsizecm, premeno, survyrs, survstat, dfsyr`, and `dfsstat`.
+
+------------------------------------------------------------------------
+
+`survyrs` and `survstat`, respectively, contain the survival time in years and its censoring status (0 if uncensored time of death, 1 if right censored).
+Note that in the notation of Sections 11.1.2 and 11.1.3, this variable represents $\delta_1$ and not $\delta$ itself.
+
+------------------------------------------------------------------------
+
+The variables `dfsyrs` and `dfsstat` are similar, except they refer to disease-free survival.
+This means
+
+if `dfsstat`=0, then `dfsyrs` is the time at which either death or disease relapse or recurrence occurred;
+
+if `dfsstat`=1, then dfsyrs is the time at which the patient was last known to be alive without relapse or recurrence of disease (but the patient’s disease or survival status is not available beyond this point).
+
+There are 519, 517, and 513 subjects in arms 1, 2, and 3, respectively.
+Of these, right censored observations number 265, 231, and 244 for the survival outcome and 224, 188, and 197 for disease-free survival.
+The maximum follow-up time is about 20 years in each arm.
+
+## Focus only on arm 1, we consider a parametric model
+
+Let $T$ denote the dime of death (`survyrs`).
+The joint likelihood can be derived by assuming
+
+$$
+    T_1, \ldots, T_n \mid f \sim f(t)
+$$
+
+For the moment $f$ is a generic density function
+
+When observations are censored, evaluation of the likelihood is impossible (of course).
+Let $C_i$ denote the random censoring time of observation $i$, we assume that
+
+1.  Censoring is independent of the event of interest
+
+2.  $P(C \leq c)$ does not depend on the $\theta$ [non-informative censoring]
+
+Hence
+
+$$
+    T_i, C_i \mid f, g \sim f(t) g(c)
+$$
+
+We rewrite the model in terms of $(y_i, \delta_i)$ such that $\delta = 0$ iff $Y=C$ and $\delta = 1$ iff $Y=T$.
+
+We introduce the hazard and survival functions: $f(t) = h(t) S(t)$ and write the likelihood as
+
+$$
+    L\left(\{y_i, \delta_i\} \right) \propto \prod f(y_i)^{\delta_i} S(y_i)^{1 - \delta_i}
+$$
+
+```{r message=FALSE, warning=FALSE}
+# Import modules
+library(posterior)
+library(bayesplot)
+library(ggplot2)
+
+# Import functions
+library(cmdstanr)
+
+# Create ./stan folder if does not exists
+if (!dir.exists("./stan")) {
+    dir.create("./stan")
+}
+```
+
+```{r}
+df <- read.csv("CALGB8541.csv")
+df <- df[df$arm == 1, ] # restrict analysis to first arm
+df <- df[sample(nrow(df)), ]
+y <- df$survyrs
+delta <- as.integer(1 - df$survstat)
+```
+
+```{r}
+cols <- c("steelblue", "orange")
+# steelbleu = censored - orange = observed
+plot(seq_along(y), y, col = cols[delta + 1], pch = 19, xlab = '')
+```
+
+For **prior elicitation**, we can use some statistics about Breast cancer available [here](https://www.cancer.net/cancer-types/breast-cancer/statistics).
+From this page, we get the following information: - 5 years survival: 90% - 10 years survival: 84%
+
+## Exponential model
+
+$$
+    f(t | \theta) = \theta e^{- \theta t}
+$$
+
+$$
+    \theta \sim \text{Gamma}(a, b)
+$$
+
+The quantile function of the exponential is
+
+$$
+    t_{p} = \frac{-log(1-p)}{\theta}
+$$
+
+we solve for $t_{0.1} = 5$ and $t_{0.16} = 10$ setting $\theta = \hat \theta = a/b$
+
+```{r}
+b = - 5 / log(0.9)
+a = 0.5 * log(0.84) / log(0.9)
+cat(a, b)
+```
+
+```{r}
+get_exp_posterior <- function(y, delta, a, b) {
+    return(c(sum(delta) + a, sum(y) + b))
+}
+
+post_params <- get_exp_posterior(y, delta, a, b)
+post_samples <- rgamma(100, shape = post_params[1], rate = post_params[2])
+```
+
+```{r}
+t_range <- seq(0, 20, length.out = 1000)
+surv <- exp(-outer(post_samples, t_range))
+plot(t_range, surv[1, ], type = "l", col = adjustcolor("steelblue", alpha.f = 0.3), ylim = c(0, 1.1), xlab = "", ylab = "")
+for (i in 2:nrow(surv)) {
+    lines(t_range, surv[i, ], col = adjustcolor("steelblue", alpha.f = 0.3))
+}
+```
+
+# Weibull model
+
+$$
+T \sim Weib(\alpha, \lambda) \iff T^{\alpha} \sim Exp(\lambda)
+$$
+
+$$
+    f(t \mid \alpha, \lambda) = \lambda \alpha t^{\alpha -1} \exp \left( - \lambda t^\alpha \right) \mathbb{I}[t > 0] 
+$$
+
+How to set priors for $\alpha$ and $\lambda$?
+
+First, we set good guesses: for the Weibull distribution we know
+
+$$
+    1-q = P(T > t_q) = \exp(-\lambda t_q^\alpha)
+$$
+
+and we know that $P(T > 5) = 0.9$, $P(T > 10) = 0.84$ from previous studies.
+
+So that we solve
+
+$$
+    \begin{cases} 
+    0.9 = \exp(-\lambda 5^\alpha) \\
+    0.84 = \exp(-\lambda 10^\alpha)
+    \end{cases}
+$$
+
+```{r}
+obj_func <- function(x) {
+    alpha <- exp(x[1])
+    lamb <- exp(x[2])
+    return((log(0.9) + lamb * 5^alpha)^2 + (log(0.84) + lamb * 10^alpha)^2)
+}
+
+out <- optim(par = c(1, -11), fn = obj_func)
+vals <- exp(out$par)
+vals
+```
+
+```{r}
+# We compute the expected value for these parameters
+
+1.0 / vals[2] * gamma(1 + 1.0 / vals[1])
+```
+
+## Watch out!
+
+Stan uses a different parametrization
+
+$$
+    f(t \mid \alpha, \sigma) =  \frac{\alpha}{\sigma} \left( \frac{t}{\sigma} \right)^{\alpha -1} \exp \left( - \frac{t^\alpha}{\sigma} \right) \mathbb{I}[t > 0] 
+$$
+
+So that $\sigma = (1/\lambda)^{\alpha}$
+
+```{r}
+obj_func <- function(x) {
+    alpha <- exp(x[1])
+    sigma <- exp(x[2])
+    return((log(0.9) + (5 / sigma)^alpha)^2 + (log(0.84) + (10 / sigma)^alpha)^2)
+}
+
+out <- optim(par = c(-1, -1), fn = obj_func)
+vals <- exp(out$par)
+vals
+```
+
+Given that $\sigma$ is very far from 0, a log-Normal or a Gamma would make little difference.
+While for $\alpha$ that is pretty close to 0, a log-Normal is usually better.
+
+The median of the log-normal distribution is $\exp(\mu)$, so we set
+
+$$
+    \alpha \sim \log N(\log 0.726, s_1^2)
+$$
+
+$$
+    \sigma \sim \log N(\log 109.56, s_2^2)
+$$
+
+To set $s_1^2$ and $s_2^2$ observe that the mode of a log-normal is $\exp(\mu_j - s_j^2)$ so that large values of $s_j^2$ force the mode near to zero.
+
+We set $s_1 = 1.0$ and $s_2 = 10$.
+
+```{r message=FALSE, warning=FALSE}
+weib_censored <- "
+data {
+    int<lower=0> n_obs;
+    int<lower=0> n_cens;
+    array[n_obs] real y_obs;
+    array[n_cens] real y_cens;
+}
+
+parameters {
+    real<lower=0> alpha;
+    real<lower=0> sigma;
+}
+
+model {
+    y_obs ~ weibull(alpha, sigma);
+    for (i in 1:n_cens)
+        target += weibull_lccdf(y_cens[i] | alpha, sigma);
+        
+    alpha ~ lognormal(-0.3202, 1.0);
+    sigma ~ lognormal(4.70, 10.0);
+}
+"
+
+# Write stan model to file
+stan_file <- "./stan/weib_censored.stan"
+writeLines(weib_censored, stan_file)
+
+# Compile stan model
+weib_censored <- cmdstan_model(stan_file)
+```
+
+```{r}
+y_obs <- y[which(delta == 1)]
+y_cens <- y[which(delta == 0)]
+```
+
+```{r}
+weib_data <- list(
+    n_obs = length(y_obs),
+    n_cens = length(y_cens),
+    y_obs = y_obs,
+    y_cens = y_cens
+)
+
+weib_censored_fit <- weib_censored$sample(
+    data = weib_data,
+    chains = 4,
+    parallel_chains = 4,
+    iter_warmup = 1000,
+    iter_sampling = 5000,
+    show_exceptions = FALSE,
+    refresh = 1000
+)
+
+posterior_draws_weib <- posterior::as_draws_df(weib_censored_fit)
+```
+
+```{r}
+mcmc_trace(posterior_draws_weib)
+```
+
+```{r}
+alphas <- posterior_draws_weib$alpha
+sigmas <- posterior_draws_weib$sigma
+
+t_range <- seq(0, 20, length.out = 1000)
+
+plot(NA, xlim = c(0, 20), ylim = c(0, 1.1), xlab = "", ylab = "")
+# weibull survival functions
+for (i in 1:100) {
+    lines(t_range, exp(-(t_range / sigmas[i])^alphas[i]), col = adjustcolor("steelblue", alpha.f = 0.3))
+}
+# exponential survival
+surv <- exp(-outer(post_samples, t_range))
+for (i in 1:length(post_samples)) {
+    lines(t_range, surv[i, ], col = adjustcolor("orange", alpha.f = 0.3))
+}
+```
+
+# Let's take it Hierarchical
+
+We consider the same dataset as before, but take into account different arms
+
+$j$: study arm.
+$i$: patient's index (inside the arm)
+
+$$
+    \begin{aligned}
+        L\left( \{y_{j, i}, \delta_{j, i}\}_{j, i} \mid \theta_1, \ldots, \theta_J \right) &= \prod f(y_{j, i} \mid \theta_j)^{\delta_{j, i}} S(y_{j, i})^{1 - \delta_{j, i}} \\
+        \theta_j &= (\alpha_j, \sigma_j) \\
+        \alpha_1, \ldots, \alpha_J \mid \alpha_0 &\sim \log N(\alpha_0, 1.0) \\
+        \sigma_1, \ldots, \sigma_J \mid \sigma_0 &\sim \log N(\sigma_0, 10.0) \\
+        \alpha_0 & \sim \log N(\log 0.726, 1.0) \\
+        \sigma_0 & \sim \log N(\log 109.56, 10.0)
+    \end{aligned}
+$$
+
+where $f$ and $S$ represent the cdf and survival function of a Weibull distribution, respectively.
+
+```{r message=FALSE, warning=FALSE}
+weib_hier <- "
+data {
+    int<lower=0> n_groups;
+    int<lower=0> n_tot;
+    array[n_tot] real y;
+    array[n_tot] int<lower=0, upper=n_groups> idx2group;
+    array[n_tot] int<lower=0, upper=1> observed;
+}
+
+parameters {
+    array[n_groups] real<lower=0> alpha;
+    array[n_groups] real<lower=0> sigma;
+    real<lower=0> alpha0;
+    real<lower=0> sigma0;
+}
+
+
+model {
+    for (i in 1:n_tot) {
+        if (observed[i] == 1) {
+            y[i] ~ weibull(alpha[idx2group[i]], sigma[idx2group[i]]);
+        } else {
+            target += weibull_lccdf(
+                y[i] | alpha[idx2group[i]], sigma[idx2group[i]]);
+        }
+    }
+    
+    alpha ~ lognormal(alpha0, 1.0);
+    sigma ~ lognormal(sigma0, 10.0);
+        
+    alpha0 ~ lognormal(-0.3202, 1.0);
+    sigma0 ~ lognormal(4.70, 10.0);
+}
+"
+
+# Write stan model to file
+stan_file <- "./stan/weib_hier.stan"
+writeLines(weib_hier, stan_file)
+
+# Compile stan model
+weib_hier <- cmdstan_model(stan_file)
+```
+
+```{r}
+df <- read.csv("CALGB8541.csv")
+y <- df$survyrs
+delta <- 1 - df$survstat
+arm <- df$arm
+
+weib_hier_data <- list(
+    n_groups = length(unique(arm)),
+    n_tot = length(y),
+    y = y,
+    idx2group = arm,
+    observed = delta
+)
+
+weib_hier_fit <- weib_hier$sample(
+    data = weib_hier_data,
+    chains = 4,
+    parallel_chains = 4,
+    iter_warmup = 1000,
+    iter_sampling = 5000,
+    refresh = 1000,
+    show_exceptions = FALSE
+)
+
+```
+
+```{r}
+weib_hier_fit
+```
+
+```{r}
+split_diverging <- function(fit, var_name) {
+    diag_mat <- as.matrix(fit$sampler_diagnostics(format = "matrix"))
+    div <- diag_mat[, "divergent__"] == 1
+    vals_mat <- as.matrix(fit$draws(var_name, format = "matrix"))
+    return(list(vals_mat[div, , drop = FALSE], vals_mat[!div, , drop = FALSE]))
+}
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+sigma_res <- split_diverging(weib_hier_fit, "sigma")
+sigma_div <- sigma_res[[1]]
+sigma_nondiv <- sigma_res[[2]]
+
+sigma0_res <- split_diverging(weib_hier_fit, "sigma0")
+sigma0_div <- sigma0_res[[1]]
+sigma0_nondiv <- sigma0_res[[2]]
+
+for (i in 1:3) {
+    plot(sigma_nondiv[, i], sigma0_nondiv[, 1], col = "steelblue", log = "y")
+    points(sigma_div[, i], sigma0_div[, 1], col = "lightgreen", pch = 19)
+}
+
+par(mfrow = c(1, 1))
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+alpha_res <- split_diverging(weib_hier_fit, "alpha")
+alpha_div <- alpha_res[[1]]
+alpha_nondiv <- alpha_res[[2]]
+
+alpha0_res <- split_diverging(weib_hier_fit, "alpha0")
+alpha0_div <- alpha0_res[[1]]
+alpha0_nondiv <- alpha0_res[[2]]
+
+for (i in 1:3) {
+    plot(alpha_nondiv[, i], alpha0_nondiv[, 1], col = "steelblue", log = "y")
+    points(alpha_div[, i], alpha0_div[, 1], col = "lightgreen", pch = 19)
+}
+
+par(mfrow = c(1, 1))
+```
+
+**The problem may come come from** $\sigma_0$ and/or $\alpha_0$, which take values that are too small
+
+Let us try to reduce the variances of $\sigma_0$ to $3^2$ and of $\alpha$'s and $\sigma$'s to $1.5^2$
+
+```{r}
+weib_hier_reparam <- "
+data {
+    int<lower=0> n_groups;
+    int<lower=0> n_tot;
+    array[n_tot] real y;
+    array[n_tot] int<lower=0, upper=n_groups> idx2group;
+    array[n_tot] int<lower=0, upper=1> observed;
+}
+
+parameters {
+    array[n_groups] real alpha_raw;
+    array[n_groups] real sigma_raw;
+    real alpha0_raw;
+    real sigma0_raw;
+}
+
+transformed parameters {
+    real alpha0;
+    real sigma0;
+    array[n_groups] real<lower=0> alpha;
+    array[n_groups] real<lower=0> sigma;
+    
+    alpha0 = exp(alpha0_raw * 1.0 - 0.3202);
+    sigma0 = exp(sigma0_raw * 3.0 + 4.70);
+    
+    for (i in 1:n_groups) {
+        alpha[i] = exp(alpha0 + 1.5 * alpha_raw[i]);
+        sigma[i] = exp(sigma0 + 1.5 * sigma_raw[i]);
+    }
+    
+}
+
+model {
+    for (i in 1:n_tot) {
+        if (observed[i] == 1) {
+            y[i] ~ weibull(alpha[idx2group[i]], sigma[idx2group[i]]);
+        } else {
+            target += weibull_lccdf(
+                y[i] | alpha[idx2group[i]], sigma[idx2group[i]]);
+        }
+    }
+    alpha_raw ~ normal(0.0, 1.0);
+    sigma_raw ~ normal(0.0, 1.0);
+    alpha0_raw ~ normal(0.0, 1.0);
+    sigma0_raw ~ normal(0.0, 1.0);
+}
+"
+
+stan_file <- "./stan/weib_hier_reparam.stan"
+
+writeLines(weib_hier_reparam, stan_file)
+
+weib_hier_reparam <- cmdstan_model(stan_file)
+```
+
+```{r}
+stan_data <- list(
+    n_groups = length(unique(arm)),
+    n_tot = length(y),
+    y = y,
+    idx2group = arm,
+    observed = delta
+)
+
+weib_hier_reparam_fit <- weib_hier_reparam$sample(
+    data = stan_data,
+    chains = 4,
+    parallel_chains = 4,
+    adapt_delta = 0.9,
+    iter_warmup = 1000,
+    iter_sampling = 1000,
+    refresh = 500,
+    show_exceptions = FALSE,
+    seed = 234
+)
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+sigma_res <- split_diverging(weib_hier_reparam_fit, "sigma")
+sigma_div <- sigma_res[[1]]
+sigma_nondiv <- sigma_res[[2]]
+
+sigma0_res <- split_diverging(weib_hier_reparam_fit, "sigma0")
+sigma0_div <- sigma0_res[[1]]
+sigma0_nondiv <- sigma0_res[[2]]
+
+for (i in 1:3) {
+    plot(sigma_nondiv[, i], sigma0_nondiv[, 1], col = "steelblue", log = "y")
+    points(sigma_div[, i], sigma0_div[, 1], col = "lightgreen", pch = 19)
+}
+
+par(mfrow = c(1, 1))
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+alpha_res <- split_diverging(weib_hier_reparam_fit, "alpha")
+alpha_div <- alpha_res[[1]]
+alpha_nondiv <- alpha_res[[2]]
+
+alpha0_res <- split_diverging(weib_hier_reparam_fit, "alpha0")
+alpha0_div <- alpha0_res[[1]]
+alpha0_nondiv <- alpha0_res[[2]]
+
+for (i in 1:3) {
+    plot(alpha_nondiv[, i], alpha0_nondiv[, 1], col = "steelblue", log = "y")
+    points(alpha_div[, i], alpha0_div[, 1], col = "lightgreen", pch = 19)
+}
+
+par(mfrow = c(1, 1))
+```
+
+```{r}
+posterior_draws_weib_reparam <- posterior::as_draws_df(weib_hier_reparam_fit)
+```
+
+```{r}
+mcmc_trace(posterior_draws_weib_reparam)
+mcmc_dens_overlay(posterior_draws_weib_reparam)
+```
+
+```{r}
+t_range <- seq(0, 20, length.out = 1000)
+cols <- c("steelblue", "orange", "forestgreen")
+
+posterior_draws <- posterior::as_draws_df(weib_hier_reparam_fit)
+
+plot(NA, xlim = c(0, 20), ylim = c(0, 1), xlab = "", ylab = "")
+
+for (i in 1:3) {
+    alphas <- posterior_draws[[paste0("alpha[", i, "]")]]
+    sigmas <- posterior_draws[[paste0("sigma[", i, "]")]]
+    
+    lines(t_range, exp(-(t_range / sigmas[1])^alphas[1]), col = cols[i])
+    
+    for (j in 1:10) {
+        idx <- sample(length(alphas), 1)
+        lines(t_range, exp(-(t_range / sigmas[idx])^alphas[idx]), col = adjustcolor(cols[i], alpha.f = 0.4))
+    }
+}
+
+legend("topright", legend = c("Arm: 1", "Arm: 2", "Arm: 3"), col = cols, lty = 1)
+```
+
+# Handling Missing Data
+
+Censored data are a very particular kind of missing data.
+But we can handle them also in more general cases
+
+### Example 1: missing responses in a regression model
+
+We generate a fictional dataset for this example...
+
+```{r}
+n <- 200
+p <- 100
+
+X <- matrix(rnorm(n * p), nrow = n, ncol = p)
+beta_true <- rnorm(p)
+y_true <- X %*% beta_true + rnorm(n)
+```
+
+...
+and then split observed and missing data
+
+```{r}
+obs_mask <- runif(n) > 0.5
+obs_idx <- which(obs_mask)
+
+y_obs <- y_true[obs_mask]
+X_obs <- X[obs_mask, ]
+X_mis <- X[!obs_mask, ]
+```
+
+We code and run the model **without** missing data
+
+```{r message=FALSE, warning=FALSE}
+normal_reg <- "
+data {
+  int<lower=1> n;
+  int<lower=1> p; 
+  vector[n] y;
+  matrix[n, p] X;
+}
+
+parameters {
+  real<lower=0> tau;
+  real<lower=0> sigma;
+  vector[p] eta;
+  real alpha;
+}
+
+transformed parameters {
+  vector[p] beta = eta * tau;
+  vector[n] mean = alpha + X * beta;
+}
+
+model {
+  alpha ~ normal(0, 10);
+  eta ~ normal(0, 1);
+  sigma ~ normal(0,1);
+  tau ~ cauchy(0, 1);
+  y ~ normal(mean, sigma);
+}
+
+generated quantities {
+  vector[n] log_lik;
+  for (i in 1:n)
+      log_lik[i] = normal_lpdf(y[i] | mean[i], sigma);
+}
+"
+
+stan_file <- "./stan/normal_reg.stan"
+writeLines(normal_reg, stan_file)
+
+normal_reg <- cmdstan_model(stan_file)
+```
+
+```{r}
+# Data dictionary for stan
+normal_reg_data <- list(
+    n = length(y_obs),
+    p = ncol(X_obs),
+    y = y_obs,
+    X = X_obs
+)
+
+# MCMC run
+normal_reg_fit <- normal_reg$sample(
+    data = normal_reg_data,
+    chains = 2,
+    parallel_chains = 2,
+    iter_warmup = 2000,
+    iter_sampling = 2000,
+    adapt_delta = 0.9,
+    refresh = 1000,
+    show_exceptions = FALSE,
+    seed = 123
+)
+normal_reg_draws <- posterior::as_draws(normal_reg_fit)
+```
+
+```{r}
+mcmc_trace(normal_reg_draws, pars = c("beta[1]","beta[2]","beta[3]","beta[4]","beta[5]"))
+mcmc_dens_overlay(normal_reg_draws, pars = c("beta[1]","beta[2]","beta[3]","beta[4]","beta[5]"))
+```
+
+And now the one in which we also impute the missing data
+
+```{r message=FALSE, warning=FALSE}
+normal_reg_miss <- "
+data {
+  int<lower=1> n_obs;
+  int<lower=1> n_mis;
+  int<lower=1> p; 
+  vector[n_obs] y_obs;
+  matrix[n_obs, p] X_obs;
+  matrix[n_mis, p] X_mis;
+}
+
+parameters {
+  real<lower=0> tau;
+  real<lower=0> sigma;
+  vector[p] eta;
+  real alpha;
+  vector[n_mis] y_mis;
+}
+
+transformed parameters {
+  vector[p] beta = eta * tau;
+  vector[n_obs] mean_obs = alpha + X_obs * beta;
+  vector[n_mis] mean_mis = alpha + X_mis * beta;
+}
+
+model {
+  alpha ~ normal(0, 10);
+  eta ~ normal(0, 1);
+  sigma ~ normal(0, 1);
+  tau ~ cauchy(0, 1);
+  y_obs ~ normal(mean_obs, sigma);
+  y_mis ~ normal(mean_mis, sigma);
+}
+
+generated quantities {
+  vector[n_obs] log_lik;
+  for (i in 1:n_obs)
+      log_lik[i] = normal_lpdf(y_obs[i] | mean_obs[i], sigma);
+}
+"
+
+# Write stan model to file
+stan_file <- "./stan/normal_reg_miss.stan"
+writeLines(normal_reg_miss, stan_file)
+
+# Compile stan model
+normal_reg_miss <- cmdstan_model(stan_file)
+```
+
+```{r}
+reg_data <- list(
+    n_obs = length(y_obs),
+    n_mis = nrow(X_mis),
+    p = ncol(X_obs),
+    y_obs = y_obs,
+    X_obs = X_obs,
+    X_mis = X_mis
+)
+
+normal_reg_miss_fit <- normal_reg_miss$sample(
+    data = reg_data,
+    chains = 2,
+    parallel_chains = 2,
+    iter_warmup = 2000,
+    iter_sampling = 2000,
+    adapt_delta = 0.9,
+    refresh = 1000,
+    show_exceptions = FALSE,
+    seed = 123
+)
+normal_reg_miss_draws <- posterior::as_draws(normal_reg_miss_fit)
+```
+
+```{r}
+mcmc_trace(normal_reg_miss_draws, pars = c("beta[1]","beta[2]","beta[3]","beta[4]","beta[5]"))
+mcmc_dens_overlay(normal_reg_miss_draws, pars = c("beta[1]","beta[2]","beta[3]","beta[4]","beta[5]"))
+```
+
+## Example 2: missing data in time series models
+
+We again create a fictional dataset.
+Now missing and observed data are related!
+
+```{r}
+phi <- c(-0.8, 0.35)
+sig <- 1.0
+
+y_true <- numeric(100)
+y_true[1] <- 3
+set.seed(123)
+y_true[2] <- rnorm(1, mean = phi[1] * y_true[1], sd = sig)
+
+for (i in 3:100) {
+    y_true[i] <- rnorm(1, mean = sum(y_true[(i-2):(i-1)] * phi), sd = sig)
+}
+
+plot(y_true, type = "l")
+```
+
+```{r}
+obs_mask <- runif(length(y_true)) > 0.5
+obs_idx <- which(obs_mask)
+miss_idx <- which(!obs_mask)
+
+y_obs <- y_true[obs_mask]
+plot(y_true, type = "l")
+points(obs_idx, y_obs, col = "red", pch = 16)
+```
+
+```{r message=FALSE, warning=FALSE}
+ts_miss <- "
+data {
+    int<lower=1> n_obs;
+    int<lower=1> n_mis;
+    vector[n_obs] y_obs;
+    array[n_obs] int observed_idx;
+    array[n_mis] int missing_idx;
+}
+
+transformed data {
+    int n_tot = n_obs + n_mis;
+}
+
+parameters {
+    vector[n_mis] y_mis;  // missing data treated as parameters in the model
+    vector[2] phi;
+    real<lower=0> sigma;
+}
+
+transformed parameters {
+    vector[n_tot] y;
+    for (i in 1:n_obs) {
+        y[observed_idx[i]] = y_obs[i];
+    }
+    for (i in 1:n_mis) {
+        y[missing_idx[i]] = y_mis[i];
+    }
+}
+
+model {
+    for (i in 3:n_tot) {
+        y[i] ~ normal(y[i-1] * phi[1] + y[i-2] * phi[2], sigma);
+    }
+    sigma ~ student_t(3, 0, 5);
+    phi ~ normal(0, 1.5);
+}
+"
+
+stan_file <- "./stan/ts_miss.stan"
+writeLines(ts_miss, stan_file)
+
+ts_miss <- cmdstan_model(stan_file)
+```
+
+```{r}
+ts_miss_data <- list(
+    n_obs = length(y_obs),
+    n_mis = length(miss_idx),
+    y_obs = y_obs,
+    observed_idx = obs_idx,
+    missing_idx = miss_idx,
+    show_exceptions = FALSE
+)
+
+ts_miss_fit <- ts_miss$sample(data = ts_miss_data)
+ts_miss_draws <- posterior::as_draws(ts_miss_fit)
+```
+
+```{r}
+mcmc_trace(ts_miss_draws, pars = c("phi[1]", "phi[2]", "sigma"))
+```
+
+```{r}
+plot(y_true, type = "l")
+points(obs_idx, y_obs)
+
+y_draws <- posterior::subset_draws(ts_miss_draws, variable = "y")
+y_mat <- posterior::as_draws_matrix(y_draws)
+med_y <- apply(y_mat, 2, median)
+
+lines(med_y, col = "red")
+```
