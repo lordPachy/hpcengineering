@@ -225,7 +225,7 @@ $$
 To set $s_1^2$ and $s_2^2$ observe that the mode of a log-normal is $\exp(\mu_j - s_j^2)$ so that large values of $s_j^2$ force the mode near to zero.
 
 We set $s_1 = 1.0$ and $s_2 = 10$.
-
+We can note that in Stan, the survival contribution is written in log scale as lCcdf (log-complement of the CDF).
 ```{r message=FALSE, warning=FALSE}
 weib_censored <- "
 data {
